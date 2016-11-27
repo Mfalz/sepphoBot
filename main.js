@@ -1,3 +1,5 @@
+#!/usr/bin/env/node
+
 var telegram = require('telegram-bot-api');
 var exec = require('child_process').exec;
 var rpiDhtSensor = require('rpi-dht-sensor');
