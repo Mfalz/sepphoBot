@@ -37,7 +37,7 @@ def getTemperature(bot,update):
 
 	# read data from DHT11 connected at GPIO4
 	humidity,temperature=Adafruit_DHT.read_retry(11,4)	
-	update.message.reply_text("The temperature is around " + str(temperature) + "")
+	update.message.reply_text("The temperature is around " + str(temperature) + " C")
 
 def error(bot, update, error):
 	logger.warn('Update "%s" caused error "%s"' % (update, error))
