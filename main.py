@@ -37,13 +37,38 @@ def getTemperature(bot,update):
 
 	# read data from DHT11 connected at GPIO4
 	humidity,temperature=Adafruit_DHT.read_retry(11,4)	
-	update.message.reply_text("The temperature is around " + str(temperature) + "")
+	update.message.reply_text("The temperature is around " + str(temperature) + " C")
+
+def getStatus(bot,update):
+	GPIO.setmode(GPIO.BCM)
+	GPIO.setwarnings(False)
+	response = ""
+	id_user = update.message.from_user.id
+	print int(id_user)
+	print os.environ['mymaker']
+	
+	if(int(id_user) != int(os.environ['mymaker'])):
+		update.message.reply_text("I'm sorry but I answer only to my maker")
+	else:
+		# check relay status
+		GPIO.setup(18,GPIO.IN)
+		relay_status=GPIO.input(18)
+				
+		if(relay_status == 1):
+			response+="The relay is ON, Sir"
+		else:
+			response+="The relay is OFF, Sir"
+		update.message.reply_text(response)
+	
+def notWorksYet(bot,update):
+	update.message.reply_text("I'm sorry but this feature is not yet in production")
+
 
 def error(bot, update, error):
 	logger.warn('Update "%s" caused error "%s"' % (update, error))
 
 def main():
-	updater = Updater(os.environ['TOKEN_sepphoBot'])
+	updater = Updater(os.environ['prod_sepphobot'])
 
 	# Get the dispatcher to register handlers
 	dp = updater.dispatcher
@@ -51,7 +76,10 @@ def main():
     	dp.add_handler(CommandHandler("start", start))
 	dp.add_handler(CommandHandler("",command_list))
 	dp.add_handler(CommandHandler("getTemperature",getTemperature))
+	dp.add_handler(CommandHandler("getStatus",getStatus))
 	
+	
+		
 	# on noncommand i.e message - echo the message on Telegram
 
 	# dp.add_handler(MessageHandler(Filters.text, echo ))
