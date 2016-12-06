@@ -12,9 +12,11 @@ logger = logging.getLogger(__name__)
 
 # command dictionary
 commands = {
-'/':"list of commands", 
+'/':"command list", 
+'/help':"the same of /",
 '/getTemperature':"return temperature from DHT11 sensor", 
-'/getStatus':"return status of the room"
+'/getStatus':"return the bot status [only Authorized users]",
+'/setStatus active | passive':" - The bot automatically manages room temperature in active mode [only authorized users]"
 }
 
 def start(bot, update):
@@ -119,6 +121,7 @@ def main():
 
     	dp.add_handler(CommandHandler("start", start))
 	dp.add_handler(CommandHandler("",command_list))
+	dp.add_handler(CommandHandler("help",command_list))
 	dp.add_handler(CommandHandler("getTemperature",getTemperature))
 	dp.add_handler(CommandHandler("getStatus",getStatus))
 	dp.add_handler(CommandHandler("setStatus",setStatus))
