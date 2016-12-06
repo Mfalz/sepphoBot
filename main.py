@@ -45,9 +45,9 @@ def getAutoBit():
 	if(os.path.isfile('/tmp/autobit')):
 		fp = open('/tmp/autobit','r')
 		if(fp.read()=='1'):
-			returnValue="Auto"
+			returnValue="ACTIVE"
 		else: 
-			returnValue="Manual"
+			returnValue="PASSIVE"
 		fp.close()
 		return returnValue
 	else:
@@ -99,12 +99,12 @@ def setStatus(bot,update):
 	command = command.upper()
 	# print len(command) , " - " , command
 	if(len(command) > 0):
-		if(command == "AUTO"):
+		if(command == "ACTIVE"):
 			setAutoBit(1)
-			update.message.reply_text("Mode setted to AUTO")
-		elif(command == "MANUAL"):
+			update.message.reply_text("Mode setted to ACTIVE")
+		elif(command == "PASSIVE"):
 			setAutoBit(0)
-			update.message.reply_text("Mode setted to MANUAL")
+			update.message.reply_text("Mode setted to PASSIVE")
 
 def notWorksYet(bot,update):
 	update.message.reply_text("I'm sorry but this feature is not yet in production")
