@@ -52,8 +52,16 @@ def getStatus(bot,update):
 	else:
 		# check relay status
 		GPIO.setup(18,GPIO.IN)
-		relay_status=GPIO.input(18)
-				
+		relay_status=GPIO.input(18)			
+		
+		fp = open('~/autobit','r')
+		if(fp.read() == int(1)):
+			response+="Mode: Auto"
+		else:
+			response+="Mode: Manual"
+			
+		fp.close()
+	
 		if(relay_status == 1):
 			response+="The relay is ON, Sir"
 		else:
