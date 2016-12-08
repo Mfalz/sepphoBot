@@ -4,6 +4,7 @@ import os
 import RPi.GPIO as GPIO
 from time import sleep
 import Adafruit_DHT
+from urllib2 import urlopen
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
@@ -80,15 +81,15 @@ def getStatus(bot,update):
 	else:
 		# check relay status
 		GPIO.setup(18,GPIO.IN)
-		relay_status=GPIO.input(18)			
-
-		response += "Mode: " + str(getAutoBit()) + "\n"
-		
+		relay_status=GPIO.input(18)
+		my_ip = urlopen('http://ip.42.pl/raw').read()			
+		response += "IP address = " + str(my_ip) + "\n"
+		response += "Mode: " + str(getAutoBit()) + "\n"		
 		if(relay_status == 1):
 			response+="The relay is ON, Sir"
 		else:
 			response+="The relay is OFF, Sir"
-		update.message.reply_text(response)
+	update.message.reply_text(response)
 
 def setStatus(bot,update):
 	if(isAuthorized(bot,update) == False):
