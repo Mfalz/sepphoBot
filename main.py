@@ -5,6 +5,7 @@ import RPi.GPIO as GPIO
 from time import sleep
 import Adafruit_DHT
 from urllib2 import urlopen
+import random
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
@@ -17,7 +18,10 @@ commands = {
 '/help':"the same of /",
 '/getTemperature':"return temperature from DHT11 sensor", 
 '/getStatus':"return the bot status [only Authorized users]",
-'/setStatus active | passive':" - The bot automatically manages room temperature in active mode [only authorized users]"
+'/setStatus active | passive':" - The bot automatically manages room temperature in active mode [only authorized users]",
+'/hurt someone':" - The bot chooses a random hurt sentences inspired to someone",
+'/stopHurt':" - Terminate Hurt system [only Authorized users]",
+'/restartHurt':" - Restart Hurt system [only Authorized users]"
 }
 
 def start(bot, update):
@@ -107,6 +111,33 @@ def setStatus(bot,update):
 			setAutoBit(0)
 			update.message.reply_text("Mode setted to PASSIVE")
 
+stopHurt = 0
+def stopHurt(bot,update):
+	global stopHurt
+	if(isAuthorized(bot,update) == False):
+		return
+	stopHurt = 1
+	update.message.reply_text("Stopping Hurt system...")
+
+def restartHurt(bot,update):
+	global stopHurt
+	if(isAuthorized(bot,update) == False):
+		return
+	stopHurt = 0
+	update.message.reply_text("Restarting Hurt system...")
+
+def hurt(bot,update):
+	global stopHurt
+	if(stopHurt == 1):
+		update.message.reply_text("Hurt system is stopped")
+		return
+	who = "" + update.message.text
+	who = str(who[5:])
+	if(len(who) > 0 and len(who) < 14):
+		sentences = open("/opt/hurtSentences.txt","r").read().splitlines()
+		aSentence = random.choice(sentences)
+		update.message.reply_text("Questa la dedico a " + who + "\n" + aSentence)
+
 def notWorksYet(bot,update):
 	update.message.reply_text("I'm sorry but this feature is not yet in production")
 
@@ -126,7 +157,9 @@ def main():
 	dp.add_handler(CommandHandler("getTemperature",getTemperature))
 	dp.add_handler(CommandHandler("getStatus",getStatus))
 	dp.add_handler(CommandHandler("setStatus",setStatus))
-	
+	dp.add_handler(CommandHandler("hurt",hurt))	
+	dp.add_handler(CommandHandler("stopHurt",stopHurt))	
+	dp.add_handler(CommandHandler("restartHurt",restartHurt))	
 	# log all errors
 	dp.add_error_handler(error)
 
