@@ -18,7 +18,7 @@ commands = {
 '/help':"the same of /",
 '/getTemperature':"return temperature from DHT11 sensor", 
 '/getStatus':"return the bot status [only Authorized users]",
-'/setStatus active | passive':" - The bot automatically manages room temperature in active mode [only authorized users]",
+'/setStatus auto | manual':" - The bot automatically manages room temperature in active mode [only authorized users]",
 '/hurt someone':" - The bot chooses a random hurt sentences inspired to someone",
 '/stopHurt':" - Terminate Hurt system [only Authorized users]",
 '/restartHurt':" - Restart Hurt system [only Authorized users]"
@@ -44,15 +44,19 @@ def getTemperature(bot,update):
 
 	# read data from DHT11 connected at GPIO4
 	humidity,temperature=Adafruit_DHT.read_retry(11,4)	
-	update.message.reply_text("The temperature is around " + str(temperature) + " C")
+	text="The temperature is arount " + str(temperature) + " C"
+	if(int(temperature) == 19):
+		text+="\nSi sta na crema Sir"
+	
+	update.message.reply_text(text)
 
 def getAutoBit():
 	if(os.path.isfile('/tmp/autobit')):
 		fp = open('/tmp/autobit','r')
 		if(fp.read()=='1'):
-			returnValue="ACTIVE"
+			returnValue="AUTO"
 		else: 
-			returnValue="PASSIVE"
+			returnValue="MANUAL"
 		fp.close()
 		return returnValue
 	else:
@@ -84,33 +88,39 @@ def getStatus(bot,update):
 		response = "I'm sorry but I can answer only to my maker"	
 	else:
 		# check relay status
-		GPIO.setup(18,GPIO.IN)
-		relay_status=GPIO.input(18)
+		try:
+			relay_status=open("/tmp/autoPI.txt","r").readline()
+		except IOError:
+			relay_status=-1
+		relay_status=int(relay_status)
 		my_ip = urlopen('http://ip.42.pl/raw').read()			
 		response += "IP address = " + str(my_ip) + "\n"
 		response += "Mode: " + str(getAutoBit()) + "\n"		
 		if(relay_status == 1):
 			response+="The relay is ON, Sir"
+		elif(relay_status == -1):
+			response+="The relay is UNKNOW, Sir"
 		else:
 			response+="The relay is OFF, Sir"
 	update.message.reply_text(response)
 
 def setStatus(bot,update):
 	if(isAuthorized(bot,update) == False):
-		update.message.reply_text("YOU SHALL NOT PASS!")
+		update.message.reply_text("I'm so sorry, you can't set status :c")
 		return 0
 	command = "" + update.message.text
 	command = str(command[11:])
 	command = command.upper()
 	# print len(command) , " - " , command
 	if(len(command) > 0):
-		if(command == "ACTIVE"):
+		if(command == "AUTO"):
 			setAutoBit(1)
-			update.message.reply_text("Mode setted to ACTIVE")
-		elif(command == "PASSIVE"):
+			update.message.reply_text("Mode setted to AUTO")
+		elif(command == "MANUAL"):
 			setAutoBit(0)
-			update.message.reply_text("Mode setted to PASSIVE")
-
+			update.message.reply_text("Mode setted to MANUAL")
+	else: 
+		print "Nothing to do here"
 stopHurt = 0
 def stopHurt(bot,update):
 	global stopHurt
