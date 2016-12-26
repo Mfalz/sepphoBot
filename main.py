@@ -37,16 +37,19 @@ def echo(bot, update):
 	update.message.reply_text(update.message.text)
 
 def getTemperature(bot,update):
-	GPIO.setmode(GPIO.BCM)
-	GPIO.setwarnings(False)
-	# enable GPIO4 for the temperature sensor
-	GPIO.setup(4,GPIO.OUT)
+        if GPIO != 0:
+            text="I'm sorry actually sepphoBot is not running on a raspberry pi" 
+        else:
+            GPIO.setmode(GPIO.BCM)
+	    GPIO.setwarnings(False)
+    	    # enable GPIO4 for the temperature sensor
+	    GPIO.setup(4,GPIO.OUT)
 
-	# read data from DHT11 connected at GPIO4
-	humidity,temperature=Adafruit_DHT.read_retry(11,4)	
-	text="The temperature is arount " + str(temperature) + " C"
-	if(int(temperature) == 19):
-		text+="\nSi sta na crema Sir"
+	    # read data from DHT11 connected at GPIO4
+	    humidity,temperature=Adafruit_DHT.read_retry(11,4)	
+	    text="The temperature is arount " + str(temperature) + " C"
+            if(int(temperature) == 19):
+	        text+="\nSi sta na crema Sir"
 	
 	update.message.reply_text(text)
 
