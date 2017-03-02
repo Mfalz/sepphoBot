@@ -1,2 +1,2 @@
 # sepphoBot
-a simple Telegram Bot in JavaScript
+a simple Telegram Bot in Python
