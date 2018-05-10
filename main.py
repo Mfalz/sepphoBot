@@ -15,8 +15,8 @@ logger = logging.getLogger(__name__)
 # command dictionary
 commands = {
 '/':"command list", 
-'/help':"the same of /",
-'/getTemperature':"return temperature from DHT11 sensor", 
+'/help':"same of /",
+'/getTemperature':"Display temperature using a DHT11 sensor", 
 '/getStatus':"return the bot status [only Authorized users]",
 '/setStatus auto | manual':" - The bot automatically manages room temperature in active mode [only authorized users]",
 '/hurt someone':" - The bot chooses a random hurt sentences inspired to someone",
@@ -44,7 +44,7 @@ def getTemperature(bot,update):
 
 	# read data from DHT11 connected at GPIO4
 	humidity,temperature=Adafruit_DHT.read_retry(11,4)	
-	text="The temperature is arount " + str(temperature) + " C"
+	text="The temperature is almost " + str(temperature) + " C"
 	if(int(temperature) == 19):
 		text+="\nSi sta na crema Sir"
 	
@@ -74,6 +74,7 @@ def setAutoBit(bit):
 
 def isAuthorized(bot,update):
 	id_user = update.message.from_user.id
+        update.message.reply_text(id_user)
 	if(int(id_user) != int(os.environ['mymaker'])):
 		return False
 	return True
@@ -85,7 +86,7 @@ def getStatus(bot,update):
 	id_user = update.message.from_user.id
 	print int(id_user)
 	if(isAuthorized(bot,update) == False):
-		response = "I'm sorry but I can answer only to my maker"	
+            response = "I'm sorry you're not authorized :("	
 	else:
 		# check relay status
 		try:
@@ -106,7 +107,7 @@ def getStatus(bot,update):
 
 def setStatus(bot,update):
 	if(isAuthorized(bot,update) == False):
-		update.message.reply_text("I'm so sorry, you can't set status :c")
+		update.message.reply_text("I'm sorry, you're not authorized")
 		return 0
 	command = "" + update.message.text
 	command = str(command[11:])
@@ -148,8 +149,11 @@ def hurt(bot,update):
 		aSentence = random.choice(sentences)
 		update.message.reply_text("Questa la dedico a " + who + "\n" + aSentence)
 
+def status(bot,update):
+        update.message.reply_text("Vivo e vegeto!")
+
 def notWorksYet(bot,update):
-	update.message.reply_text("I'm sorry but this feature is not yet in production")
+	update.message.reply_text("This feature is not already deployed")
 
 
 def error(bot, update, error):
@@ -169,7 +173,8 @@ def main():
 	dp.add_handler(CommandHandler("setStatus",setStatus))
 	dp.add_handler(CommandHandler("hurt",hurt))	
 	dp.add_handler(CommandHandler("stopHurt",stopHurt))	
-	dp.add_handler(CommandHandler("restartHurt",restartHurt))	
+	dp.add_handler(CommandHandler("restartHurt",restartHurt))
+        dp.add_handler(CommandHandler("status",status))
 	# log all errors
 	dp.add_error_handler(error)
 
