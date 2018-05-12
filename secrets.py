@@ -1,2 +1,2 @@
-sepphobot_auth_id=your_telegram_id
-sepphobot_telegram_token=your_bot_token
+sepphobot_auth_id="your_telegram_id"
+sepphobot_telegram_token="your_telegram_token"
