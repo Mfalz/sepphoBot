@@ -15,8 +15,6 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
-
-
 # command dictionary
 commands = {
 '/':"command list", 
@@ -49,7 +47,7 @@ def getTemperature(bot,update):
 
 	# read data from DHT11 connected at GPIO4
 	humidity,temperature=Adafruit_DHT.read_retry(11,4)	
-	text="Temperature around " + str(temperature) + " C " + "\n" + "Humidity around " + str(humidity) + ""
+	text="- Temperature is around " + str(temperature) + " C " + "\n" + "- Humidity is around " + str(humidity) + ""
 	update.message.reply_text(text)
 
 def getAutoBit():
