@@ -1,4 +1,7 @@
+#!/usr/bin/python
+
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from secrets import *
 import logging
 import os
 import RPi.GPIO as GPIO
@@ -11,6 +14,8 @@ import random
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
 
 logger = logging.getLogger(__name__)
+
+
 
 # command dictionary
 commands = {
@@ -74,7 +79,7 @@ def setAutoBit(bit):
 
 def isAuthorized(bot,update):
 	id_user = update.message.from_user.id
-	if(int(id_user) != int(os.environ['mymaker'])):
+	if(int(id_user) != int(sepphobot_auth_id)):
 		return False
 	return True
 	
@@ -156,7 +161,7 @@ def error(bot, update, error):
 	logger.warn('Update "%s" caused error "%s"' % (update, error))
 
 def main():
-	updater = Updater(os.environ['prod_sepphobot'])
+	updater = Updater(sepphobot_telegram_token)
 
 	# Get the dispatcher to register handlers
 	dp = updater.dispatcher
