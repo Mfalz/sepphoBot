@@ -49,10 +49,7 @@ def getTemperature(bot,update):
 
 	# read data from DHT11 connected at GPIO4
 	humidity,temperature=Adafruit_DHT.read_retry(11,4)	
-	text="The temperature is arount " + str(temperature) + " C"
-	if(int(temperature) == 19):
-		text+="\nSi sta na crema Sir"
-	
+	text="Temperature around " + str(temperature) + " C " + "\n" + "Humidity around " + str(humidity) + ""
 	update.message.reply_text(text)
 
 def getAutoBit():
@@ -172,9 +169,9 @@ def main():
 	dp.add_handler(CommandHandler("getTemperature",getTemperature))
 	dp.add_handler(CommandHandler("getStatus",getStatus))
 	dp.add_handler(CommandHandler("setStatus",setStatus))
-	dp.add_handler(CommandHandler("hurt",hurt))	
-	dp.add_handler(CommandHandler("stopHurt",stopHurt))	
-	dp.add_handler(CommandHandler("restartHurt",restartHurt))	
+	dp.add_handler(CommandHandler("hurt",hurt))
+	dp.add_handler(CommandHandler("stopHurt",stopHurt))
+	dp.add_handler(CommandHandler("restartHurt",restartHurt))
 	# log all errors
 	dp.add_error_handler(error)
 
