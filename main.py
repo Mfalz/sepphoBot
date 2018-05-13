@@ -21,10 +21,10 @@ commands = {
 '/help':"the same of /",
 '/getTemperature':"return temperature from DHT11 sensor", 
 '/getStatus':"return the bot status [only Authorized users]",
-'/setStatus auto | manual':" - The bot automatically manages room temperature in active mode [only authorized users]",
+'/setStatus [auto | manual]':" - The bot automatically manages room temperature in active mode [only authorized users]",
 '/hurt someone':" - The bot chooses a random hurt sentences inspired to someone",
-'/stopHurt':" - Terminate Hurt system [only Authorized users]",
-'/restartHurt':" - Restart Hurt system [only Authorized users]"
+'/disableHurt':" - Disable Hurt system [only Authorized users]",
+'/enableHurt':" - Enable Hurt [only Authorized users]"
 }
 
 def start(bot, update):
@@ -122,14 +122,14 @@ def setStatus(bot,update):
 	else: 
 		print "Nothing to do here"
 stopHurt = 0
-def stopHurt(bot,update):
+def disableHurt(bot,update):
 	global stopHurt
 	if(isAuthorized(bot,update) == False):
 		return
 	stopHurt = 1
 	update.message.reply_text("Stopping Hurt system...")
 
-def restartHurt(bot,update):
+def enableHurt(bot,update):
 	global stopHurt
 	if(isAuthorized(bot,update) == False):
 		return
@@ -168,8 +168,8 @@ def main():
 	dp.add_handler(CommandHandler("getStatus",getStatus))
 	dp.add_handler(CommandHandler("setStatus",setStatus))
 	dp.add_handler(CommandHandler("hurt",hurt))
-	dp.add_handler(CommandHandler("stopHurt",stopHurt))
-	dp.add_handler(CommandHandler("restartHurt",restartHurt))
+	dp.add_handler(CommandHandler("disableHurt",disableHurt))
+	dp.add_handler(CommandHandler("enableHurt",enableHurt))
 	# log all errors
 	dp.add_error_handler(error)
 
