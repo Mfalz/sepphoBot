@@ -24,7 +24,8 @@ commands = {
 '/setStatus [auto | manual]':" - The bot automatically manages room temperature in active mode [only authorized users]",
 '/hurt someone':" - The bot chooses a random hurt sentences inspired to someone",
 '/disableHurt':" - Disable Hurt system [only Authorized users]",
-'/enableHurt':" - Enable Hurt [only Authorized users]"
+'/enableHurt':" - Enable Hurt [only Authorized users]",
+'/contrib':" - Contrib to sepphobot"
 }
 
 def start(bot, update):
@@ -151,6 +152,8 @@ def hurt(bot,update):
 def notWorksYet(bot,update):
 	update.message.reply_text("I'm sorry but this feature is not yet in production")
 
+def contrib(bot,update):
+	update.message.reply_text("You can help at https://github.com/mfalz/sepphobot")
 
 def error(bot, update, error):
 	logger.warn('Update "%s" caused error "%s"' % (update, error))
@@ -170,6 +173,7 @@ def main():
 	dp.add_handler(CommandHandler("hurt",hurt))
 	dp.add_handler(CommandHandler("disableHurt",disableHurt))
 	dp.add_handler(CommandHandler("enableHurt",enableHurt))
+	dp.add_handler(CommandHandler("contrib",contrib))
 	# log all errors
 	dp.add_error_handler(error)
 
