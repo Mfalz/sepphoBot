@@ -36,7 +36,10 @@ def getCostMin(bot, update):
 
 
 def dayDeal(bot, update):
-    update.message.reply_markdown("*bold* _italic_ `fixed width font` [link](https://www.daydeal.ch/).")
+    update.message.reply_markdown("[Look for the daily deal!](https://www.daydeal.ch/).")
+
+def weekDeal(bot, update):
+    update.message.reply_markdown("[Look for the weekly deal!](https://www.daydeal.ch/deal-of-the-week).")
 
 
 def digitecDeal(bot, update):
@@ -242,6 +245,7 @@ commands = {
     '/getPhoto date': "return photos",
     '/wallet show date': "",
     '/wallet [add | del] product price': "",
+    '/weekDeal': "get weekly deal from daydeal.ch",
     '/german [ level: A1|A2|B1|B2|C1 ]': "Return a random sentence",
     '/contrib': " - Contrib github url"
 }
@@ -283,6 +287,7 @@ def main():
 
     # daily deals and product tracking
     dp.add_handler(CommandHandler("dayDeal", dayDeal))
+    dp.add_handler(CommandHandler("weekDeal", weekDeal))
     dp.add_handler(CommandHandler("digitecDeal", digitecDeal))
     # news tracking
 
