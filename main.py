@@ -15,25 +15,6 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
-# command dictionary
-commands = {
-'/':"command list", 
-'/help':"the same of /",
-'/getTemperature':"return temperature from DHT11 sensor", 
-'/getStatus':"return the bot status [only Authorized users]",
-'/setStatus [auto | manual]':" - The bot automatically manages room temperature in active mode [only authorized users]",
-'/hurt someone [--disable|--enable]':" - The bot chooses a random hurt sentences inspired to someone",
-'/getCostMin product'
-'/dayDeal':"",
-'/digitecDeal':"",
-'/dailyZeit hh:ff jira-number': "",
-'/dailyZeit get [date]': "",
-'/getPhoto date': "",
-'/wallet [add|del|get date] product price': "",
-'/german [play|stop]': "",
-'/contrib':" - Contrib url"
-}
-
 def start(bot, update):
 	update.message.reply_text('Hi! I\m SepphoBot!')
 
@@ -92,7 +73,7 @@ def getStatus(bot,update):
 	id_user = update.message.from_user.id
 	print int(id_user)
 	if(isAuthorized(bot,update) == False):
-		response = "I'm sorry but I can answer only to my maker"	
+		response = "You are not authorized, your ID is: " + id_user
 	else:
 		# check relay status
 		try:
@@ -164,29 +145,65 @@ def contrib(bot,update):
 def error(bot, update, error):
 	logger.warn('Update "%s" caused error "%s"' % (update, error))
 
+# command dictionary
+commands = {
+	'/':"command list",
+	'/help':"the same of /",
+	'/getTemperature':"return temperature from DHT11 sensor",
+	'/getStatus':"return the bot status [only Authorized users]",
+	'/setStatus [auto | manual]':" - The bot automatically manages room temperature in active mode [only authorized users]",
+	'/hurt someone [--disable|--enable]':" - The bot chooses a random hurt sentences inspired to someone",
+	'/dayDeal': "get daily deal from daydeal.ch",
+	'/digitecDeal': "get daily deal from digitec.ch",
+	'/dailyZeit hh:ff jira-number': "set working hours for given jira task",
+	'/dailyZeit get [date]': "get working hours spents for each jira task in the date provided",
+	'/getPhoto date': "return photos",
+	'/wallet show date': "",
+	'/wallet [add | del] product price': "",
+	'/german [ level: A1|A2|B1|B2|C1 ]': "Return a random sentence",
+	'/contrib':" - Contrib github url"
+}
+
 def main():
 	updater = Updater(sepphobot_telegram_token)
 
 	# Get the dispatcher to register handlers
 	dp = updater.dispatcher
 
-    	dp.add_handler(CommandHandler("start", start))
-	dp.add_handler(CommandHandler("",command_list))
+    dp.add_handler(CommandHandler("start", start))
+	dp.add_handler(CommandHandler(" ",command_list))
 	dp.add_handler(CommandHandler("help",command_list))
+	dp.add_handler(CommandHandler("contrib",contrib))
+
+	# raspberry PI features
 	dp.add_handler(CommandHandler("getTemperature",getTemperature))
 	dp.add_handler(CommandHandler("getStatus",getStatus))
 	dp.add_handler(CommandHandler("setStatus",setStatus))
+
+	# funny features
 	dp.add_handler(CommandHandler("hurt",hurt))
 	dp.add_handler(CommandHandler("disableHurt",disableHurt))
 	dp.add_handler(CommandHandler("enableHurt",enableHurt))
-	dp.add_handler(CommandHandler("contrib",contrib))
+
+	# wallet tracking
+
+	# zeit tracking
+
+	# nas features
+
+	# AWS features
+
+	# daily deals and product tracking
+
+	# news tracking
+
 	# log all errors
 	dp.add_error_handler(error)
 
 	# Start the Bot
 	updater.start_polling()
 
-    	updater.idle()
+    updater.idle()
 
 if __name__ == '__main__':
 	main()
