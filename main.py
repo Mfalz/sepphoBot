@@ -36,7 +36,7 @@ def getCostMin(bot, update):
 
 
 def dayDeal(bot, update):
-    bot.reply_markdown("*bold* _italic_ `fixed width font` [link](https://www.daydeal.ch/).")
+    update.message.reply_markdown("*bold* _italic_ `fixed width font` [link](https://www.daydeal.ch/).")
 
 
 def digitecDeal(bot, update):
