@@ -36,7 +36,8 @@ def getCostMin(bot, update):
 
 
 def dayDeal(bot, update):
-    notWorksYet(bot, update)
+    bot.message.reply_text(text="*bold* _italic_ `fixed width font` [link](https://www.daydeal.ch/).",
+                           parse_mode=telegram.ParseMode.MARKDOWN)
 
 
 def digitecDeal(bot, update):
@@ -289,11 +290,11 @@ def main():
     # log all errors
     dp.add_error_handler(error)
 
-
-# Start the Bot
+    # Start the Bot
     updater.start_polling()
 
     updater.idle()
+
 
 if __name__ == '__main__':
     main()
