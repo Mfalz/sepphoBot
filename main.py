@@ -15,6 +15,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
+
 def start(bot, update):
     update.message.reply_text('Hi! I\m SepphoBot!')
 
@@ -126,37 +127,41 @@ def getStatus(bot, update):
         else:
             response += "The relay is OFF, Sir"
     update.message.reply_text(response)
-def isAuthorized(bot,update):
-	id_user = update.message.from_user.id
-	if(int(id_user) != int(sepphobot_auth_id)):
-		return False
-	return True
 
-def getStatus(bot,update):
-	GPIO.setmode(GPIO.BCM)
-	GPIO.setwarnings(False)
-	response = ""
-	id_user = update.message.from_user.id
-	print int(id_user)
-	if(isAuthorized(bot,update) == False):
-		response = "You are not authorized, your ID is: " + id_user
-	else:
-		# check relay status
-		try:
-			relay_status=open("/tmp/autoPI.txt","r").readline()
-		except IOError:
-			relay_status=-1
-		relay_status=int(relay_status)
-		my_ip = urlopen('http://ip.42.pl/raw').read()
-		response += "IP address = " + str(my_ip) + "\n"
-		response += "Mode: " + str(getAutoBit()) + "\n"
-		if(relay_status == 1):
-			response+="The relay is ON, Sir"
-		elif(relay_status == -1):
-			response+="The relay is UNKNOW, Sir"
-		else:
-			response+="The relay is OFF, Sir"
-	update.message.reply_text(response)
+
+def isAuthorized(bot, update):
+    id_user = update.message.from_user.id
+    if (int(id_user) != int(sepphobot_auth_id)):
+        return False
+    return True
+
+
+def getStatus(bot, update):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+    response = ""
+    id_user = update.message.from_user.id
+    print
+    int(id_user)
+    if (isAuthorized(bot, update) == False):
+        response = "You are not authorized, your ID is: " + id_user
+    else:
+        # check relay status
+        try:
+            relay_status = open("/tmp/autoPI.txt", "r").readline()
+        except IOError:
+            relay_status = -1
+        relay_status = int(relay_status)
+        my_ip = urlopen('http://ip.42.pl/raw').read()
+        response += "IP address = " + str(my_ip) + "\n"
+        response += "Mode: " + str(getAutoBit()) + "\n"
+        if (relay_status == 1):
+            response += "The relay is ON, Sir"
+        elif (relay_status == -1):
+            response += "The relay is UNKNOW, Sir"
+        else:
+            response += "The relay is OFF, Sir"
+    update.message.reply_text(response)
 
 
 def setStatus(bot, update):
@@ -224,22 +229,23 @@ def error(bot, update, error):
 
 # command dictionary
 commands = {
-	'/':"command list",
-	'/help':"the same of /",
-	'/getTemperature':"return temperature from DHT11 sensor",
-	'/getStatus':"return the bot status [only Authorized users]",
-	'/setStatus [auto | manual]':" - The bot automatically manages room temperature in active mode [only authorized users]",
-	'/hurt someone [--disable|--enable]':" - The bot chooses a random hurt sentences inspired to someone",
-	'/dayDeal': "get daily deal from daydeal.ch",
-	'/digitecDeal': "get daily deal from digitec.ch",
-	'/dailyZeit hh:ff jira-number': "set working hours for given jira task",
-	'/dailyZeit get [date]': "get working hours spents for each jira task in the date provided",
-	'/getPhoto date': "return photos",
-	'/wallet show date': "",
-	'/wallet [add | del] product price': "",
-	'/german [ level: A1|A2|B1|B2|C1 ]': "Return a random sentence",
-	'/contrib':" - Contrib github url"
+    '/': "command list",
+    '/help': "the same of /",
+    '/getTemperature': "return temperature from DHT11 sensor",
+    '/getStatus': "return the bot status [only Authorized users]",
+    '/setStatus [auto | manual]': " - The bot automatically manages room temperature in active mode [only authorized users]",
+    '/hurt someone [--disable|--enable]': " - The bot chooses a random hurt sentences inspired to someone",
+    '/dayDeal': "get daily deal from daydeal.ch",
+    '/digitecDeal': "get daily deal from digitec.ch",
+    '/dailyZeit hh:ff jira-number': "set working hours for given jira task",
+    '/dailyZeit get [date]': "get working hours spents for each jira task in the date provided",
+    '/getPhoto date': "return photos",
+    '/wallet show date': "",
+    '/wallet [add | del] product price': "",
+    '/german [ level: A1|A2|B1|B2|C1 ]': "Return a random sentence",
+    '/contrib': " - Contrib github url"
 }
+
 
 def main():
     updater = Updater(sepphobot_telegram_token)
@@ -247,60 +253,47 @@ def main():
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
+    # log all errors
+    dp.add_error_handler(error)
     dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("", command_list))
+    dp.add_handler(CommandHandler(" ", command_list))
     dp.add_handler(CommandHandler("help", command_list))
+    dp.add_handler(CommandHandler("contrib", contrib))
+
+    # raspberry PI features
     dp.add_handler(CommandHandler("getTemperature", getTemperature))
     dp.add_handler(CommandHandler("getStatus", getStatus))
     dp.add_handler(CommandHandler("setStatus", setStatus))
+
+    # funny features
     dp.add_handler(CommandHandler("hurt", hurt))
     dp.add_handler(CommandHandler("disableHurt", disableHurt))
     dp.add_handler(CommandHandler("enableHurt", enableHurt))
-    dp.add_handler(CommandHandler("getCostMin", getCostMin))
-    dp.add_handler(CommandHandler("contrib", contrib))
+    dp.add_handler(CommandHandler("german", german))
+
+    # wallet tracking
+    dp.add_handler(CommandHandler("wallet", wallet))
+
+    # zeit tracking
+    dp.add_handler(CommandHandler("dailyZeit", dailyZeit))
+    # nas features
+    dp.add_handler(CommandHandler("getPhoto", getPhoto))
+
+    # AWS features
+
+    # daily deals and product tracking
     dp.add_handler(CommandHandler("dayDeal", dayDeal))
     dp.add_handler(CommandHandler("digitecDeal", digitecDeal))
-    dp.add_handler(CommandHandler("dailyZeit", dailyZeit))
-    dp.add_handler(CommandHandler("getPhoto", getPhoto))
-    dp.add_handler(CommandHandler("wallet", wallet))
-    dp.add_handler(CommandHandler("german", german))
+    # news tracking
+
     # log all errors
     dp.add_error_handler(error)
-    	dp.add_handler(CommandHandler("start", start))
-	dp.add_handler(CommandHandler(" ",command_list))
-	dp.add_handler(CommandHandler("help",command_list))
-	dp.add_handler(CommandHandler("contrib",contrib))
 
-	# raspberry PI features
-	dp.add_handler(CommandHandler("getTemperature",getTemperature))
-	dp.add_handler(CommandHandler("getStatus",getStatus))
-	dp.add_handler(CommandHandler("setStatus",setStatus))
 
-	# funny features
-	dp.add_handler(CommandHandler("hurt",hurt))
-	dp.add_handler(CommandHandler("disableHurt",disableHurt))
-	dp.add_handler(CommandHandler("enableHurt",enableHurt))
+# Start the Bot
+updater.start_polling()
 
-	# wallet tracking
-
-	# zeit tracking
-
-	# nas features
-
-	# AWS features
-
-	# daily deals and product tracking
-
-	# news tracking
-
-	# log all errors
-	dp.add_error_handler(error)
-
-    # Start the Bot
-    updater.start_polling()
-
-    updater.idle()
-
+updater.idle()
 
 if __name__ == '__main__':
     main()
