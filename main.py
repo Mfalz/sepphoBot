@@ -22,10 +22,16 @@ commands = {
 '/getTemperature':"return temperature from DHT11 sensor", 
 '/getStatus':"return the bot status [only Authorized users]",
 '/setStatus [auto | manual]':" - The bot automatically manages room temperature in active mode [only authorized users]",
-'/hurt someone':" - The bot chooses a random hurt sentences inspired to someone",
-'/disableHurt':" - Disable Hurt system [only Authorized users]",
-'/enableHurt':" - Enable Hurt [only Authorized users]",
-'/contrib':" - Contrib to sepphobot"
+'/hurt someone [--disable|--enable]':" - The bot chooses a random hurt sentences inspired to someone",
+'/getCostMin product'
+'/dayDeal':"",
+'/digitecDeal':"",
+'/dailyZeit hh:ff jira-number': "",
+'/dailyZeit get [date]': "",
+'/getPhoto date': "",
+'/wallet [add|del|get date] product price': "",
+'/german [play|stop]': "",
+'/contrib':" - Contrib url"
 }
 
 def start(bot, update):
