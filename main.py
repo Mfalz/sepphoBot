@@ -170,7 +170,7 @@ def main():
 	# Get the dispatcher to register handlers
 	dp = updater.dispatcher
 
-    dp.add_handler(CommandHandler("start", start))
+    	dp.add_handler(CommandHandler("start", start))
 	dp.add_handler(CommandHandler(" ",command_list))
 	dp.add_handler(CommandHandler("help",command_list))
 	dp.add_handler(CommandHandler("contrib",contrib))
@@ -203,7 +203,7 @@ def main():
 	# Start the Bot
 	updater.start_polling()
 
-    updater.idle()
+    	updater.idle()
 
 if __name__ == '__main__':
 	main()
