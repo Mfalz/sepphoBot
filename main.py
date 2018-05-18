@@ -67,7 +67,7 @@ def getKeyboard(bot,update):
     keyboard2 = [["Yes", "No"]]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
-    bot.sendMessage('Use custom keyboard', reply_markup=physical_reply_markup)
+    update.message.reply_text('Use custom keyboard', reply_markup=physical_reply_markup)
 
 FIRST, SECOND = range(2)
 
