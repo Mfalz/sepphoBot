@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters,  CallbackQueryHandler, ConversationHandler
 from secrets import *
 import logging
 import os
@@ -61,6 +62,47 @@ def wallet(bot, update):
 def german(bot, update):
     notWorksYet(bot, update)
 
+FIRST, SECOND = range(2)
+def menuTest(bot,update):
+    keyboard = [
+        [InlineKeyboardButton(u"Next", callback_data=str(FIRST))]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    update.message.reply_text(
+        u"Start handler, Press next",
+        reply_markup=reply_markup
+    )
+    return FIRST
+
+def first(bot, update):
+    query = update.callback_query
+    keyboard = [
+        [InlineKeyboardButton(u"Next", callback_data=str(SECOND))]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    bot.edit_message_text(
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        text=u"First CallbackQueryHandler, Press next"
+    )
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    bot.edit_message_reply_markup(
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        reply_markup=reply_markup
+    )
+    return SECOND
+
+def second(bot, update):
+    query = update.callback_query
+    bot.edit_message_text(
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        text=u"Second CallbackQueryHandler"
+    )
+    return
 
 def getTemperature(bot, update):
     GPIO.setmode(GPIO.BCM)
@@ -253,9 +295,17 @@ commands = {
 
 def main():
     updater = Updater(sepphobot_telegram_token)
-
+    conv_handler = ConversationHandler(
+        entry_points=[CommandHandler('menuTest', menuTest)],
+        states={
+            FIRST: [CallbackQueryHandler(first)],
+            SECOND: [CallbackQueryHandler(second)]
+        },
+        fallbacks=[CommandHandler('menuTest', menuTest)]
+    )
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
+    dp.add_handler(conv_handler)
 
     # log all errors
     dp.add_error_handler(error)
