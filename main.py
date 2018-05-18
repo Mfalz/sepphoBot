@@ -65,7 +65,7 @@ def german(bot, update):
 
 def getKeyboard(bot,update):
     keyboard2 = [
-        [KeyboardButton(text="1F235"), KeyboardButton(text="b"), KeyboardButton(text="c")],
+        [KeyboardButton(text=u"1F235"), KeyboardButton(text="b"), KeyboardButton(text="c")],
         [KeyboardButton(text="d"), KeyboardButton(text="e"), KeyboardButton(text="f")],
         [KeyboardButton(text="g"), KeyboardButton(text="h"), KeyboardButton(text="i")]
 
