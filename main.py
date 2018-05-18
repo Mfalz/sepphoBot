@@ -64,7 +64,6 @@ def german(bot, update):
 
 
 def getKeyboard(bot,update):
-    update.message.reply_text("testing2")
     keyboard2 = [["Yes", "No"]]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
