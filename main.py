@@ -64,7 +64,19 @@ def german(bot, update):
 
 
 def getKeyboard(bot,update):
-    update.message.reply_text("testing1")
+    bot.sendMessage("testing2")
+    keyboard2 = [
+        [KeyboardButton(text="a"), KeyboardButton(text="b"), KeyboardButton(text="c")],
+        [KeyboardButton(text="d"), KeyboardButton(text="e"), KeyboardButton(text="f")],
+        [KeyboardButton(text="g"), KeyboardButton(text="h"), KeyboardButton(text="i")]
+
+    ]
+    physical_reply_markup = ReplyKeyboardMarkup(
+        keyboard=[
+            keyboard2
+        ]
+    )
+    bot.sendMessage('Use custom keyboard', reply_markup=physical_reply_markup)
 
 FIRST, SECOND = range(2)
 
