@@ -65,14 +65,14 @@ def german(bot, update):
 
 def getKeyboard(bot,update):
     keyboard2 = [
-        [KeyboardButton(text=u"1F235"), KeyboardButton(text="b"), KeyboardButton(text="c")],
+        [KeyboardButton(text=u"\U0001F235"), KeyboardButton(text="b"), KeyboardButton(text="c")],
         [KeyboardButton(text="d"), KeyboardButton(text="e"), KeyboardButton(text="f")],
         [KeyboardButton(text="g"), KeyboardButton(text="h"), KeyboardButton(text="i")]
 
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
-    update.message.reply_text('Use custom keyboard', reply_markup=physical_reply_markup)
+    update.message.reply_text('Use custom keyboard2', reply_markup=physical_reply_markup)
 
 FIRST, SECOND = range(2)
 
