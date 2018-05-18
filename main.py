@@ -78,7 +78,7 @@ def physicalMenuTest(bot,update):
                                     keyboard
                                 ]
                             )
-    bot.sendMessage(
+    bot.editMessageReplyMarkup(
         "PhysicalTest",
         reply_markup=physical_reply_markup
     )
