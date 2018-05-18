@@ -74,13 +74,13 @@ def physicalMenuTest(bot,update):
     ]
 
     physical_reply_markup = [
-        [ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True, one_timekeyboard=False)]
+        [ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True, one_timekeyboard=True)]
     ]
     update.message.reply_text(
         u"Start phusical handler, Press next",
         reply_markup=physical_reply_markup
     )
-    return FIRST
+
 
 def menuTest(bot,update):
     keyboard = [
