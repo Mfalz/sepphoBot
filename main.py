@@ -69,11 +69,10 @@ def getKeyboard(bot,update):
     keyboard = [
         [KeyboardButton(text="a"), KeyboardButton(text="b"), KeyboardButton(text="c")],
         [KeyboardButton(text="d"), KeyboardButton(text="e"), KeyboardButton(text="f")],
-        [KeyboardButton(text="g"), KeyboardButton(text="h"), KeyboardButton(text="i")],
+        [KeyboardButton(text="g"), KeyboardButton(text="h"), KeyboardButton(text="i")]
 
     ]
-    bot.sendMessage("testing1")
-    bot.sendMessage("testing2")
+
     physical_reply_markup = ReplyKeyboardMarkup(
                                 keyboard=[
                                     keyboard
