@@ -51,24 +51,23 @@ def command_list(bot, update):
 
 def main():
     # initialize objects
-    secrets = Secret("your_auth_id","your_telegram_token")
-    # sensor = Sensor()
-    wallet = Wallet()
-    zeit = Zeit()
-    funny = Funny()
-    deal = Deal()
-    nas = Nas()
-
-    funny.disableHurt()
-
-    return
+    secrets = Secret("admin_authID","telegram_token")
+    # initialize the Telegram updater
     updater = Updater(secrets.getTelegramToken())
-
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
-    # log all errors
-    dp.add_error_handler(error)
+    dp.add_handler(CommandHandler('put', secrets.setUser))
+
+    # TODO. Lazy solution, How Does Dependency Injection work in python??
+    # sensor = Sensor(secrets,updater)
+    wallet = Wallet(secrets,updater)
+    zeit = Zeit(secrets,updater)
+    funny = Funny(secrets,updater)
+    deal = Deal(secrets,updater)
+    nas = Nas(secrets,updater)
+    funny.disableHurt(secrets,updater)
+    return
 
     # create available commands list
     # for command in commands.item():

@@ -1,12 +1,14 @@
 class Funny:
+    Secrets = 0
+    update = 0
+    def __init__(self,secrets,update):
+        self.Secrets = secrets
+        self.update = update
+
 
     def disableHurt(self):
-        global stopHurt
-        if (isAuthorized(bot, update) == False):
-            return
-        stopHurt = 1
-        update.message.reply_text("Stopping Hurt system...")
-
+        if self.Secrets.isAuthorized():
+            update.message.reply_text("Stopping Hurt system...")
 
     def enableHurt(bot, update):
         global stopHurt
