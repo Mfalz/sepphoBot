@@ -1,26 +1,23 @@
 class Funny:
-    Secrets = 0
-    update = 0
-    def __init__(self,secrets,update):
-        self.Secrets = secrets
-        self.update = update
+    Secret = 0
+    enabled = True
+    def __init__(self,secret,update):
+        self.Secret = secret
 
 
-    def disableHurt(self):
-        if self.Secrets.isAuthorized():
-            update.message.reply_text("Stopping Hurt system...")
+    def disableHurt(self, bot, update):
+        if self.Secret.isAuthorized(update):
+            self.enabled = False
+            update.message.reply_text("Disabling Hurt system...")
 
-    def enableHurt(bot, update):
-        global stopHurt
-        if (isAuthorized(bot, update) == False):
-            return
-        stopHurt = 0
-        update.message.reply_text("Restarting Hurt system...")
+    def enableHurt(self, bot, update):
+        if self.Secret.isAuthorized(update):
+            self.enabled = True
+            update.message.reply_text("Enabling Hurt system...")
 
+    def hurt(self, bot, update):
 
-    def hurt(bot, update):
-        global stopHurt
-        if (stopHurt == 1):
+        if self.enabled == False:
             update.message.reply_text("Hurt system is stopped")
             return
         who = "" + update.message.text
@@ -30,5 +27,5 @@ class Funny:
             aSentence = random.choice(sentences)
             update.message.reply_text("Questa la dedico a " + who + "\n" + aSentence)
 
-    def german(bot, update):
+    def german(self, bot, update):
         print("Generate a random sentence in German")

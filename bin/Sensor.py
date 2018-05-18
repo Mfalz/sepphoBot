@@ -3,10 +3,12 @@ from time import sleep
 import Adafruit_DHT
 
 class Sensor:
-    def __init__(self):
-        print "Sensor init"
+    Secret = 0
 
-    def getTemperature(bot, update):
+    def __int__(self,secret):
+        self.Secret=secret
+
+    def getTemperature(self, bot, update):
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         # enable GPIO4 for the temperature sensor
@@ -32,7 +34,7 @@ class Sensor:
             return "Manual"
 
 
-    def setAutoBit(bit):
+    def setAutoBit(self, bit):
         if (os.path.isfile('/tmp/autobit')):
             fp = open('/tmp/autobit', 'w')
         else:
@@ -41,7 +43,7 @@ class Sensor:
         fp.write(str(bit))
         fp.close()
 
-    def getStatus(bot, update):
+    def getStatus(self, bot, update):
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         response = ""
@@ -68,7 +70,7 @@ class Sensor:
                 response += "The relay is OFF, Sir"
         update.message.reply_text(response)
 
-    def setStatus(bot, update):
+    def setStatus(self, bot, update):
         if (isAuthorized(bot, update) == False):
             update.message.reply_text("I'm so sorry, you can't set status :c")
             return 0
