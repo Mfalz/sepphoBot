@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 def start(bot, update):
-    update.message.reply_text('Hi! I\'m SepphoBot!')
+    update.message.reply_text('Hi! I\'m SepphoBot!2')
 
 
 def command_list(bot, update):
@@ -65,7 +65,7 @@ def german(bot, update):
 FIRST, SECOND = range(2)
 
 
-def physicalMenuTest(bot,update):
+def getKeyboard(bot,update):
     keyboard = [
         [KeyboardButton(text="a"), KeyboardButton(text="b"), KeyboardButton(text="c")],
         [KeyboardButton(text="d"), KeyboardButton(text="e"), KeyboardButton(text="f")],
@@ -78,10 +78,7 @@ def physicalMenuTest(bot,update):
                                     keyboard
                                 ]
                             )
-    bot.editMessageReplyMarkup(
-        "PhysicalTest",
-        reply_markup=physical_reply_markup
-    )
+    bot.sendMessage('Use custom keyboard', reply_markup=physical_reply_markup)
 
 
 def menuTest(bot,update):
@@ -326,7 +323,7 @@ def main():
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
     dp.add_handler(conv_handler)
-    dp.add_handler(CommandHandler("physicalMenuTest", physicalMenuTest))
+    dp.add_handler(CommandHandler("getKeyboard", getKeyboard))
 
     # log all errors
     dp.add_error_handler(error)
