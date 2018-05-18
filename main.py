@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup,KeyboardButton
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters,  CallbackQueryHandler, ConversationHandler
 from secrets import *
 import logging
@@ -67,9 +67,9 @@ FIRST, SECOND = range(2)
 
 def physicalMenuTest(bot,update):
     keyboard = [
-        ['a', 'b', 'c'],
-        ['d', 'e', 'f'],
-        ['1', '2', '3'],
+        [KeyboardButton(text="a"), KeyboardButton(text="b"), KeyboardButton(text="c")],
+        [KeyboardButton(text="d"), KeyboardButton(text="e"), KeyboardButton(text="f")],
+        [KeyboardButton(text="g"), KeyboardButton(text="h"), KeyboardButton(text="i")],
 
     ]
 
@@ -77,7 +77,7 @@ def physicalMenuTest(bot,update):
         [ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True, one_timekeyboard=True)]
     ]
     update.message.reply_text(
-        u"Start phusical handler, Press next",
+        "PhysicalTest",
         reply_markup=physical_reply_markup
     )
 
