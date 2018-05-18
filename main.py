@@ -64,7 +64,7 @@ def german(bot, update):
 
 
 def getKeyboard(bot,update):
-    bot.sendMessage("testing2")
+    update.message.reply_text("testing2")
     keyboard2 = [
         [KeyboardButton(text="a"), KeyboardButton(text="b"), KeyboardButton(text="c")],
         [KeyboardButton(text="d"), KeyboardButton(text="e"), KeyboardButton(text="f")],
