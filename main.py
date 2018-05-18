@@ -76,7 +76,7 @@ def physicalMenuTest(bot,update):
     physical_reply_markup = [
         [ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True, one_timekeyboard=True)]
     ]
-    update.message.reply_text(
+    bot.sendMessage(
         "PhysicalTest",
         reply_markup=physical_reply_markup
     )
@@ -98,7 +98,6 @@ def first(bot, update):
     keyboard = [
         [InlineKeyboardButton(u"Next", callback_data=str(SECOND))]
     ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
     bot.edit_message_text(
         chat_id=query.message.chat_id,
         message_id=query.message.message_id,
