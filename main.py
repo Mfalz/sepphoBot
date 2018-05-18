@@ -73,9 +73,11 @@ def physicalMenuTest(bot,update):
 
     ]
 
-    physical_reply_markup = [
-        [ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True, one_timekeyboard=True)]
-    ]
+    physical_reply_markup = ReplyKeyboardMarkup(
+                                keyboard=[
+                                    keyboard
+                                ]
+                            )
     bot.sendMessage(
         "PhysicalTest",
         reply_markup=physical_reply_markup
