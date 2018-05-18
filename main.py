@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters,  CallbackQueryHandler, ConversationHandler
 from secrets import *
 import logging
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 def start(bot, update):
-    update.message.reply_text('Hi! I\m SepphoBot!')
+    update.message.reply_text('Hi! I\'m SepphoBot!')
 
 
 def command_list(bot, update):
@@ -63,6 +63,25 @@ def german(bot, update):
     notWorksYet(bot, update)
 
 FIRST, SECOND = range(2)
+
+
+def physicalMenuTest(bot,update):
+    keyboard = [
+        ['a', 'b', 'c'],
+        ['d', 'e', 'f'],
+        ['1', '2', '3'],
+
+    ]
+
+    physical_reply_markup = [
+        [ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True, one_timekeyboard=False)]
+    ]
+    update.message.reply_text(
+        u"Start phusical handler, Press next",
+        reply_markup=physical_reply_markup
+    )
+    return FIRST
+
 def menuTest(bot,update):
     keyboard = [
         [InlineKeyboardButton(u"Next", callback_data=str(FIRST))]
@@ -306,6 +325,7 @@ def main():
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
     dp.add_handler(conv_handler)
+    dp.add_handler(CommandHandler("physicalMenuTest", physicalMenuTest))
 
     # log all errors
     dp.add_error_handler(error)
