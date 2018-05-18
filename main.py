@@ -62,12 +62,11 @@ def wallet(bot, update):
 def german(bot, update):
     notWorksYet(bot, update)
 
-FIRST, SECOND = range(2)
-
 
 def getKeyboard(bot,update):
     update.message.reply_text("testing1")
 
+FIRST, SECOND = range(2)
 
 
 def menuTest(bot,update):
