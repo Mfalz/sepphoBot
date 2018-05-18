@@ -66,16 +66,17 @@ FIRST, SECOND = range(2)
 
 
 def getKeyboard(bot,update):
-    keyboard = [
+    keyboard2 = [
         [KeyboardButton(text="a"), KeyboardButton(text="b"), KeyboardButton(text="c")],
         [KeyboardButton(text="d"), KeyboardButton(text="e"), KeyboardButton(text="f")],
         [KeyboardButton(text="g"), KeyboardButton(text="h"), KeyboardButton(text="i")]
 
     ]
-
+    bot.sendMessage("testing1")
+    bot.sendMessage("testing2")
     physical_reply_markup = ReplyKeyboardMarkup(
                                 keyboard=[
-                                    keyboard
+                                    keyboard2
                                 ]
                             )
     bot.sendMessage('Use custom keyboard', reply_markup=physical_reply_markup)
