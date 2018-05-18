@@ -64,7 +64,12 @@ def german(bot, update):
 
 
 def getKeyboard(bot,update):
-    keyboard2 = [["Yes", "No"]]
+    keyboard2 = [
+        [KeyboardButton(text="a"), KeyboardButton(text="b"), KeyboardButton(text="c")],
+        [KeyboardButton(text="d"), KeyboardButton(text="e"), KeyboardButton(text="f")],
+        [KeyboardButton(text="g"), KeyboardButton(text="h"), KeyboardButton(text="i")]
+
+    ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
     update.message.reply_text('Use custom keyboard', reply_markup=physical_reply_markup)
