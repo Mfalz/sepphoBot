@@ -8,11 +8,7 @@ class Secret:
         self.authID=userID
 
     def isAuthorized(self):
-        return false
-        id_user = update.message.from_user.id
-        if (int(id_user) != int(sepphobot_auth_id)):
-            return False
-        return True
+        return self.userID == self.authID
 
     def getTelegramToken(self):
         return self.telegramToken

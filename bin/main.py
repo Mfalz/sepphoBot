@@ -57,8 +57,6 @@ def main():
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
-    dp.add_handler(CommandHandler('put', secrets.setUser))
-
     # TODO. Lazy solution, How Does Dependency Injection work in python??
     # sensor = Sensor(secrets,updater)
     wallet = Wallet(secrets,updater)
@@ -73,7 +71,7 @@ def main():
     # for command in commands.item():
     #     dp.add_handler(CommandHandler("" + command, command))
 
-    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("start", secrets.setUser))
     dp.add_handler(CommandHandler("", command_list))
     dp.add_handler(CommandHandler("help", command_list))
     dp.add_handler(CommandHandler("contrib", contrib))
