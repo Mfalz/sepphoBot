@@ -66,21 +66,8 @@ FIRST, SECOND = range(2)
 
 
 def getKeyboard(bot,update):
-
     bot.sendMessage("testing1")
-    bot.sendMessage("testing2")
-    keyboard2 = [
-        [KeyboardButton(text="a"), KeyboardButton(text="b"), KeyboardButton(text="c")],
-        [KeyboardButton(text="d"), KeyboardButton(text="e"), KeyboardButton(text="f")],
-        [KeyboardButton(text="g"), KeyboardButton(text="h"), KeyboardButton(text="i")]
 
-    ]
-    physical_reply_markup = ReplyKeyboardMarkup(
-                                keyboard=[
-                                    keyboard2
-                                ]
-                            )
-    bot.sendMessage('Use custom keyboard', reply_markup=physical_reply_markup)
 
 
 def menuTest(bot,update):
