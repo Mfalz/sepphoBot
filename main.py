@@ -82,9 +82,9 @@ def initMenu(bot, update):
 def firstPage(bot, update,user_data):
     keyboard3 = [
         [KeyboardButton(text=u"\U0001F4B0" + "/wallet"), KeyboardButton(text=u"\U0000231A" + "/dailyZeit"),
-         KeyboardButton(text=u"\U0001F9B9" + "/getPhoto")],
+         KeyboardButton(text=u"\U0001F4F8" + "/getPhoto")],
         [KeyboardButton(text=u"\U0001F4B9" + "/dayDeal"), KeyboardButton(text=u"\U0001F911" + "/weekDeal"),
-         KeyboardButton(text=u"\U0001F449" + "Next")]
+         KeyboardButton(text=u"\U0001F449" + " Next")]
     ]
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard3)
     bot.sendMessage(update.message.chat_id, text="Page one", reply_markup=physical_reply_markup, one_time_keyboard=True)
