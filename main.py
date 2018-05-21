@@ -366,7 +366,7 @@ def main():
                                       initMenu,
                                       pass_user_data=True),
                          RegexHandler('^Something else...$',
-                                      custom_choice),
+                                      custom_choice)
                          ],
             SECOND_PAGE: [RegexHandler('^' + u"\U0001F449" + " Next" + '$',
                                        secondPage,
@@ -375,7 +375,7 @@ def main():
                                        firstPage,
                                        pass_user_data=True),
                           RegexHandler('^Something else...$',
-                                       custom_choice),
+                                       custom_choice)
                           ],
             # THIRD_PAGE: [RegexHandler('^' + u"\U0001F448" + " Back" + '$',
             #                           firstPage,
