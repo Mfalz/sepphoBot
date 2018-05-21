@@ -70,12 +70,11 @@ def initMenu(bot, update):
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
-    bot.sendMessage(update.message.chat_id, text="Page zero", reply_markup=physical_reply_markup, one_time_keyboard=True)
+    bot.sendMessage(update.message.chat_id, text="Page zeroo", reply_markup=physical_reply_markup, one_time_keyboard=True)
     buff = update.message.text
-    if buff == 'Next':
-        return FIRST_PAGE
-    else:
-        return buff
+
+    return FIRST_PAGE
+
 
 
 def firstPage(bot, update):
@@ -95,7 +94,7 @@ def secondPage(bot,update):
     keyboard4 = [[KeyboardButton(text=u"\U0001F4BB" + "/digitecDeal"), KeyboardButton(text=u"\U0001F1EA" + "/german")]]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard4)
-    bot.sendMessage(update.message.chat_id, text="Page one", reply_markup=physical_reply_markup,one_time_keyboard=True)
+    bot.sendMessage(update.message.chat_id, text="Page two", reply_markup=physical_reply_markup, one_time_keyboard=True)
     # buff = update.message.text
     # if buff == 'Next':
     #     return FIRST_PAGE
