@@ -70,7 +70,7 @@ def initMenu(bot, update):
     keyboard2 = [
         [KeyboardButton(text=u"\U0001F321" + "/getTemperature"), KeyboardButton(text=u"\U0001F49A" + "/getStatus"),
          KeyboardButton(text=u"\U0001F9E1" + "/setStatus")],
-        [KeyboardButton(text=u"\U0001F494" + "/enableHurt"), KeyboardButton(text=u"\U00002764" + "/disableHurt"), "Next"]
+        [KeyboardButton(text=u"\U0001F494" + "/enableHurt"), KeyboardButton(text=u"\U00002764" + "/disableHurt"), KeyboardButton(text=u"\U0001F449"+" Next")]
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
@@ -361,7 +361,7 @@ def main():
     init_menu_conv_handler = ConversationHandler(
         entry_points=[CommandHandler('initMenu', initMenu)],
         states={
-            FIRST_PAGE: [RegexHandler('^Next$',
+            FIRST_PAGE: [RegexHandler('^\U0001F449 Next$',
                                       firstPage,
                                       pass_user_data=True),
                          RegexHandler('^Something else...$',
