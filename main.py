@@ -102,14 +102,15 @@ def secondPage(bot, update, user_data):
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard4)
     bot.sendMessage(update.message.chat_id, text="Page two", reply_markup=physical_reply_markup)
-    return THIRD_PAGE
+    # return THIRD_PAGE
 
 def exitKeyboard(bot, update):
     bot.sendMessage(update.message.chat_id, 'Deleting keyboard', reply_markup=ReplyKeyboardRemove())
 
 
 FIRST, SECOND = range(2)
-FIRST_PAGE, SECOND_PAGE, THIRD_PAGE = range(3)
+FIRST_PAGE, SECOND_PAGE = range(2)
+# FIRST_PAGE, SECOND_PAGE, THIRD_PAGE = range(3)
 
 
 def menuTest(bot, update):
@@ -371,17 +372,17 @@ def main():
                                        secondPage,
                                        pass_user_data=True),
                           RegexHandler('^' + u"\U0001F448" + " Back" + '$',
-                                       initMenu,
+                                       firstPage,
                                        pass_user_data=True),
                           RegexHandler('^Something else...$',
                                        custom_choice),
                           ],
-            THIRD_PAGE: [RegexHandler('^' + u"\U0001F448" + " Back" + '$',
-                                      firstPage,
-                                      pass_user_data=True),
-                         RegexHandler('^Something else...$',
-                                      custom_choice),
-                         ]
+            # THIRD_PAGE: [RegexHandler('^' + u"\U0001F448" + " Back" + '$',
+            #                           firstPage,
+            #                           pass_user_data=True),
+            #              RegexHandler('^Something else...$',
+            #                           custom_choice),
+            #              ]
         },
         fallbacks=[CommandHandler('exitKeyboard', exitKeyboard)]
     )
