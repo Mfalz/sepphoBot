@@ -71,11 +71,11 @@ def initMenu(bot, update):
         [KeyboardButton(text=u"\U0001F321" + "/getTemperature"), KeyboardButton(text=u"\U0001F49A" + "/getStatus"),
          KeyboardButton(text=u"\U0001F9E1" + "/setStatus")],
         [KeyboardButton(text=u"\U0001F494" + "/enableHurt"), KeyboardButton(text=u"\U00002764" + "/disableHurt"),
-         KeyboardButton("Next")]
+        "Next"]
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
-    bot.sendMessage(update.message.chat_id, text="Page zeroabb", reply_markup=physical_reply_markup,
+    bot.sendMessage(update.message.chat_id, text="Page zeroabbc", reply_markup=physical_reply_markup,
                     one_time_keyboard=True)
     return FIRST_PAGE
 
