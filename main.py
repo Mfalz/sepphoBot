@@ -74,7 +74,7 @@ def initMenu(bot, update):
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
-    bot.sendMessage(update.message.chat_id, text="Page zero", reply_markup=physical_reply_markup,
+    bot.sendMessage(update.message.chat_id, text="Page zeroa", reply_markup=physical_reply_markup,
                     one_time_keyboard=True)
     return FIRST_PAGE
 
@@ -367,7 +367,7 @@ def main():
                          RegexHandler('^Something else...$',
                                       custom_choice),
                          ],
-            SECOND_PAGE: [RegexHandler('^Next$',
+            SECOND_PAGE: [RegexHandler('^'+u"\U0001F449"+" Next"+'$',
                                       secondPage,
                                       pass_user_data=True),
                          RegexHandler('^Something else...$',
