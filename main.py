@@ -361,7 +361,7 @@ def main():
     init_menu_conv_handler = ConversationHandler(
         entry_points=[CommandHandler('initMenu', initMenu)],
         states={
-            FIRST_PAGE: [RegexHandler('^\U0001F449 Next$',
+            FIRST_PAGE: [RegexHandler('^'+u"\U0001F449"+" Next"+'$',
                                       firstPage,
                                       pass_user_data=True),
                          RegexHandler('^Something else...$',
