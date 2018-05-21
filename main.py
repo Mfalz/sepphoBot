@@ -66,21 +66,21 @@ def german(bot, update):
 def initMenu(bot,update):
     keyboard2 = [
         [KeyboardButton(text=u"\U0001F321"+"/getTemperature"), KeyboardButton(text=u"\U0001F49A"+"/getStatus"), KeyboardButton(text=u"\U0001F9E1"+"/setStatus")],
-        [KeyboardButton(text=u"\U0001F494"+"/enableHurt"), KeyboardButton(text=u"\U00002764"+"/disableHurt"), InlineKeyboardButton(text=u"\U0001F449"+"Next",callback_data="secondPage")]
+        [KeyboardButton(text=u"\U0001F494"+"/enableHurt"), KeyboardButton(text=u"\U00002764"+"/disableHurt"), InlineKeyboardButton(text=u"\U0001F449"+"Next",callback_data=str(FIRST_PAGE))]
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
     update.message.reply_text('Use custom keyboard2', reply_markup=physical_reply_markup)
 
-def secondPage(bot,update):
+def firstPage(bot,update):
     keyboard3 = [
         [KeyboardButton(text=u"\U0001F4B0" + "/wallet"), KeyboardButton(text=u"\U0000231A" + "/dailyZeit"),KeyboardButton(text=u"\U0001F9B9" + "/getPhoto")],
-        [KeyboardButton(text=u"\U0001F4B9" + "/dayDeal"), KeyboardButton(text=u"\U0001F911" + "/weekDeal"),InlineKeyboardButton(text=u"\U0001F449" + "Next", callback_data="thirdPage")]
+        [KeyboardButton(text=u"\U0001F4B9" + "/dayDeal"), KeyboardButton(text=u"\U0001F911" + "/weekDeal"),InlineKeyboardButton(text=u"\U0001F449" + "Next", callback_data=str(SECOND_PAGE))]
     ]
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard3)
     update.message.reply_text('Next page', reply_markup=physical_reply_markup)
 
-def thirdPage(bot,update):
+def secondPage(bot,update):
     keyboard4 = [[KeyboardButton(text=u"\U0001F4BB" + "/digitecDeal"), KeyboardButton(text=u"\U0001F1EA" + "/german")]]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard4)
@@ -332,8 +332,8 @@ def main():
     init_menu_conv_handler = ConversationHandler(
         entry_points=[CommandHandler('initMenu', initMenu)],
         states={
-            FIRST_PAGE: [CallbackQueryHandler(secondPage)],
-            SECOND_PAGE: [CallbackQueryHandler(thirdPage)]
+            FIRST_PAGE: [CallbackQueryHandler(firstPage)],
+            SECOND_PAGE: [CallbackQueryHandler(secondPage)]
         },
         fallbacks=[CommandHandler('initMenu', initMenu)]
     )
