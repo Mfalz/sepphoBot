@@ -63,24 +63,24 @@ def german(bot, update):
     notWorksYet(bot, update)
 
 
-def getKeyboard(bot,update):
+def initMenu(bot,update):
     keyboard2 = [
         [KeyboardButton(text=u"\U0001F321"+"/getTemperature"), KeyboardButton(text=u"\U0001F49A"+"/getStatus"), KeyboardButton(text=u"\U0001F9E1"+"/setStatus")],
-        [KeyboardButton(text=u"\U0001F494"+"/enableHurt"), KeyboardButton(text=u"\U00002764"+"/disableHurt"), InlineKeyboardButton(text=u"\U0001F449"+"/next",callback_data="getKeyboard2")]
+        [KeyboardButton(text=u"\U0001F494"+"/enableHurt"), KeyboardButton(text=u"\U00002764"+"/disableHurt"), InlineKeyboardButton(text=u"\U0001F449"+"Next",callback_data="secondPage")]
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
     update.message.reply_text('Use custom keyboard2', reply_markup=physical_reply_markup)
 
-def getKeyboard2(bot,update):
+def secondPage(bot,update):
     keyboard3 = [
         [KeyboardButton(text=u"\U0001F4B0" + "/wallet"), KeyboardButton(text=u"\U0000231A" + "/dailyZeit"),KeyboardButton(text=u"\U0001F9B9" + "/getPhoto")],
-        [KeyboardButton(text=u"\U0001F4B9" + "/dayDeal"), KeyboardButton(text=u"\U0001F911" + "/weekDeal"),InlineKeyboardButton(text=u"\U0001F449" + "Next", callback_data="getKeyboard3")]
+        [KeyboardButton(text=u"\U0001F4B9" + "/dayDeal"), KeyboardButton(text=u"\U0001F911" + "/weekDeal"),InlineKeyboardButton(text=u"\U0001F449" + "Next", callback_data="thirdPage")]
     ]
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard3)
     update.message.reply_text('Next page', reply_markup=physical_reply_markup)
 
-def getKeyboard3(bot,update):
+def thirdPage(bot,update):
     keyboard4 = [[KeyboardButton(text=u"\U0001F4BB" + "/digitecDeal"), KeyboardButton(text=u"\U0001F1EA" + "/german")]]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard4)
@@ -331,9 +331,9 @@ def main():
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
-    dp.add_handler(CommandHandler("getKeyboard", getKeyboard))
-    dp.add_handler(CommandHandler("getKeyboard2", getKeyboard))
-    dp.add_handler(CommandHandler("getKeyboard3", getKeyboard))
+    dp.add_handler(CommandHandler("initMenu", initMenu))
+    dp.add_handler(CommandHandler("secondPage", secondPage))
+    dp.add_handler(CommandHandler("thirdPage", thirdPage))
     dp.add_handler(conv_handler)
 
     # log all errors
