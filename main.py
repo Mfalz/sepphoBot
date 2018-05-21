@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup,KeyboardButton
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup,KeyboardButton, ReplyKeyboardRemove
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters,  CallbackQueryHandler, ConversationHandler
 from secrets import *
 import logging
@@ -70,7 +70,7 @@ def initMenu(bot, update):
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
-    bot.sendMessage(update.message.chat_id, text="Page zero", reply_markup=physical_reply_markup)
+    bot.sendMessage(update.message.chat_id, text="Page zero", reply_markup=physical_reply_markup, one_time_keyboard=True)
     buff = update.message.text
     if buff == 'Next':
         return FIRST_PAGE
@@ -84,7 +84,7 @@ def firstPage(bot, update):
         [KeyboardButton(text=u"\U0001F4B9" + "/dayDeal"), KeyboardButton(text=u"\U0001F911" + "/weekDeal"),KeyboardButton(text=u"\U0001F449" + "Next")]
     ]
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard3)
-    bot.sendMessage(update.message.chat_id, text="Page one", reply_markup=physical_reply_markup)
+    bot.sendMessage(update.message.chat_id, text="Page one", reply_markup=physical_reply_markup, one_time_keyboard=True)
     buff = update.message.text
     if buff == 'Next':
         return SECOND_PAGE
@@ -95,12 +95,16 @@ def secondPage(bot,update):
     keyboard4 = [[KeyboardButton(text=u"\U0001F4BB" + "/digitecDeal"), KeyboardButton(text=u"\U0001F1EA" + "/german")]]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard4)
-    bot.sendMessage(update.message.chat_id, text="Page one", reply_markup=physical_reply_markup)
+    bot.sendMessage(update.message.chat_id, text="Page one", reply_markup=physical_reply_markup,one_time_keyboard=True)
     # buff = update.message.text
     # if buff == 'Next':
     #     return FIRST_PAGE
     # else:
     #     return buff
+
+def exitKeyboard(bot,update):
+    bot.sendMessage(update.message.chat_id, 'Deleting keyboard', reply_markup=ReplyKeyboardRemove())
+
 
 FIRST, SECOND = range(2)
 FIRST_PAGE, SECOND_PAGE = range(2)
@@ -349,10 +353,12 @@ def main():
     init_menu_conv_handler = ConversationHandler(
         entry_points=[CommandHandler('initMenu', initMenu)],
         states={
-            FIRST_PAGE: [CallbackQueryHandler(firstPage)],
-            SECOND_PAGE: [CallbackQueryHandler(secondPage)]
+            FIRST_PAGE: [MessageHandler([Filters.text], firstPage),
+                  CommandHandler('help', help)],
+            SECOND_PAGE: [MessageHandler([Filters.text], secondPage),
+                  CommandHandler('help', help)]
         },
-        fallbacks=[CommandHandler('initMenu', initMenu)]
+        fallbacks=[CommandHandler('exitKeyboard', exitKeyboard)]
     )
 
     # Get the dispatcher to register handlers
