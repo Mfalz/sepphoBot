@@ -78,6 +78,10 @@ def initMenu(bot, update):
     bot.sendMessage(update.message.chat_id, text="Page zeroa", reply_markup=physical_reply_markup)
     return FIRST_PAGE
 
+def zeroPage(bot, update):
+    initMenu(bot, update);
+
+
 
 def firstPage(bot, update, user_data):
     keyboard3 = [
@@ -363,7 +367,7 @@ def main():
                                       firstPage,
                                       pass_user_data=True),
                          RegexHandler('^' + u"\U0001F448" + " Back" + '$',
-                                      initMenu,
+                                      zeroPage,
                                       pass_user_data=True),
                          RegexHandler('^Something else...$',
                                       custom_choice)
@@ -372,7 +376,7 @@ def main():
                                        secondPage,
                                        pass_user_data=True),
                           RegexHandler('^' + u"\U0001F448" + " Back" + '$',
-                                       initMenu,
+                                       firstPage,
                                        pass_user_data=True),
                           RegexHandler('^Something else...$',
                                        custom_choice)
