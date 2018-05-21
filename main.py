@@ -74,7 +74,7 @@ def initMenu(bot, update):
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
-    bot.sendMessage(update.message.chat_id, text="Page zeroa", reply_markup=physical_reply_markup,
+    bot.sendMessage(update.message.chat_id, text="Page zero", reply_markup=physical_reply_markup,
                     one_time_keyboard=True)
     return FIRST_PAGE
 
@@ -87,7 +87,7 @@ def firstPage(bot, update,user_data):
          KeyboardButton(text=u"\U0001F449" + " Next")]
     ]
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard3)
-    bot.sendMessage(update.message.chat_id, text="Page one", reply_markup=physical_reply_markup, one_time_keyboard=True)
+    bot.sendMessage(update.message.chat_id, text="Page one", reply_markup=physical_reply_markup)
 
     return SECOND_PAGE
 
@@ -96,10 +96,10 @@ def custom_choice(bot, update, user_data):
 
 
 def secondPage(bot, update, user_data):
-    keyboard4 = [[KeyboardButton(text=u"\U0001F4BB" + "/digitecDeal"), KeyboardButton(text=u"\U0001F1EA" + "/german")]]
+    keyboard4 = [[KeyboardButton(text=u"\U0001F4BB" + "/digitecDeal"), KeyboardButton(text=u"\U0001F468" + "/german")]]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard4)
-    bot.sendMessage(update.message.chat_id, text="Page two", reply_markup=physical_reply_markup, one_time_keyboard=True)
+    bot.sendMessage(update.message.chat_id, text="Page two", reply_markup=physical_reply_markup)
     # buff = update.message.text
     # if buff == 'Next':
     #     return FIRST_PAGE
