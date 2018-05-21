@@ -363,8 +363,8 @@ def main():
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("initMenu", initMenu))
-    dp.add_handler(conv_handler)
     dp.add_handler(init_menu_conv_handler)
+    dp.add_handler(conv_handler)
 
     # log all errors
     dp.add_error_handler(error)
