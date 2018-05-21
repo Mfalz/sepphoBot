@@ -65,9 +65,10 @@ def german(bot, update):
 
 def getKeyboard(bot,update):
     keyboard2 = [
-        [KeyboardButton(text=u"\U0001F235"), KeyboardButton(text="b"), KeyboardButton(text="c")],
-        [KeyboardButton(text="d"), KeyboardButton(text="e"), KeyboardButton(text="f")],
-        [KeyboardButton(text="g"), KeyboardButton(text="h"), KeyboardButton(text="i")]
+        [KeyboardButton(text=u"\U0001F321"+"/getTemperature"), KeyboardButton(text=u"\U0001F49A"+"/getStatus"), KeyboardButton(text=u"\U0001F9E1"+"/setStatus")],
+        [KeyboardButton(text=u"\U0001F494"+"/enableHurt"), KeyboardButton(text=u"\U00002764"+"/disableHurt"), KeyboardButton(text=u"\U0001F1E9"+"/german")],
+        [KeyboardButton(text=u"\U0001F4B0"+"/wallet"), KeyboardButton(text=u"\U0000231A"+"/dailyZeit"), KeyboardButton(text=u"\U0001F9B9"+"/getPhoto")],
+        [KeyboardButton(text=u"\U0001F4B9"+"/dayDeal"), KeyboardButton(text=u"\U0001F911"+"/weekDeal"), KeyboardButton(text=u"\U0001F468"+"/digitecDeal")]
 
     ]
 
