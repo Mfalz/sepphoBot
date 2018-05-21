@@ -63,28 +63,44 @@ def german(bot, update):
     notWorksYet(bot, update)
 
 
-def initMenu(bot,update):
+def initMenu(bot, update):
     keyboard2 = [
         [KeyboardButton(text=u"\U0001F321"+"/getTemperature"), KeyboardButton(text=u"\U0001F49A"+"/getStatus"), KeyboardButton(text=u"\U0001F9E1"+"/setStatus")],
-        [KeyboardButton(text=u"\U0001F494"+"/enableHurt"), KeyboardButton(text=u"\U00002764"+"/disableHurt"), InlineKeyboardButton(text=u"\U0001F449"+"Next",callback_data=str(FIRST_PAGE))]
+        [KeyboardButton(text=u"\U0001F494"+"/enableHurt"), KeyboardButton(text=u"\U00002764"+"/disableHurt"), KeyboardButton(text=u"\U0001F449"+"Next")]
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
-    update.message.reply_text('Use custom keyboard2', reply_markup=physical_reply_markup)
+    bot.sendMessage(update.message.chat_id, text="Page zero", reply_markup=physical_reply_markup)
+    buff = update.message.text
+    if buff == 'Next':
+        return FIRST_PAGE
+    else:
+        return buff
 
-def firstPage(bot,update):
+
+def firstPage(bot, update):
     keyboard3 = [
         [KeyboardButton(text=u"\U0001F4B0" + "/wallet"), KeyboardButton(text=u"\U0000231A" + "/dailyZeit"),KeyboardButton(text=u"\U0001F9B9" + "/getPhoto")],
-        [KeyboardButton(text=u"\U0001F4B9" + "/dayDeal"), KeyboardButton(text=u"\U0001F911" + "/weekDeal"),InlineKeyboardButton(text=u"\U0001F449" + "Next", callback_data=str(SECOND_PAGE))]
+        [KeyboardButton(text=u"\U0001F4B9" + "/dayDeal"), KeyboardButton(text=u"\U0001F911" + "/weekDeal"),KeyboardButton(text=u"\U0001F449" + "Next")]
     ]
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard3)
-    update.message.reply_text('Next page', reply_markup=physical_reply_markup)
+    bot.sendMessage(update.message.chat_id, text="Page one", reply_markup=physical_reply_markup)
+    buff = update.message.text
+    if buff == 'Next':
+        return SECOND_PAGE
+    else:
+        return buff
 
 def secondPage(bot,update):
     keyboard4 = [[KeyboardButton(text=u"\U0001F4BB" + "/digitecDeal"), KeyboardButton(text=u"\U0001F1EA" + "/german")]]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard4)
-    update.message.reply_text('Next page 2', reply_markup=physical_reply_markup)
+    bot.sendMessage(update.message.chat_id, text="Page one", reply_markup=physical_reply_markup)
+    # buff = update.message.text
+    # if buff == 'Next':
+    #     return FIRST_PAGE
+    # else:
+    #     return buff
 
 FIRST, SECOND = range(2)
 FIRST_PAGE, SECOND_PAGE = range(2)
