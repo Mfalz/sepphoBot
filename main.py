@@ -372,7 +372,7 @@ def main():
                                        secondPage,
                                        pass_user_data=True),
                           RegexHandler('^' + u"\U0001F448" + " Back" + '$',
-                                       firstPage,
+                                       initMenu,
                                        pass_user_data=True),
                           RegexHandler('^Something else...$',
                                        custom_choice)
