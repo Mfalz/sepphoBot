@@ -363,7 +363,7 @@ def main():
             FIRST_PAGE: [RegexHandler('^'+u"\U0001F449"+" Next"+'$',
                                       firstPage,
                                       pass_user_data=True),
-                         RegexHandler('^' + u"\U0001F448"+" Back"+'$',
+                         RegexHandler('^'+u"\U0001F448"+" Back"+'$',
                                       initMenu,
                                       pass_user_data=True),
                          RegexHandler('^Something else...$',
