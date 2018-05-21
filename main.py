@@ -86,7 +86,7 @@ def thirdPage(bot,update):
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard4)
     update.message.reply_text('Next page 2', reply_markup=physical_reply_markup)
 
-FIRST, SECOND = range(2)
+FIRST, SECOND, FIRST_PAGE, SECOND_PAGE = range(2)
 
 
 def menuTest(bot,update):
@@ -329,12 +329,20 @@ def main():
         fallbacks=[CommandHandler('menuTest', menuTest)]
     )
 
+    init_menu_conv_handler = ConversationHandler(
+        entry_points=[CommandHandler('initMenu', initMenu)],
+        states={
+            FIRST_PAGE: [CallbackQueryHandler(secondPage)],
+            SECOND_PAGE: [CallbackQueryHandler(thirdPage)]
+        },
+        fallbacks=[CommandHandler('initMenu', initMenu)]
+    )
+
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("initMenu", initMenu))
-    dp.add_handler(CommandHandler("secondPage", secondPage))
-    dp.add_handler(CommandHandler("thirdPage", thirdPage))
     dp.add_handler(conv_handler)
+    dp.add_handler(init_menu_conv_handler)
 
     # log all errors
     dp.add_error_handler(error)
