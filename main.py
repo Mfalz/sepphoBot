@@ -71,7 +71,7 @@ def initMenu(bot, update):
         [KeyboardButton(text=u"\U0001F321" + "/getTemperature"), KeyboardButton(text=u"\U0001F49A" + "/getStatus"),
          KeyboardButton(text=u"\U0001F9E1" + "/setStatus")],
         [KeyboardButton(text=u"\U0001F494" + "/enableHurt"), KeyboardButton(text=u"\U00002764" + "/disableHurt"),
-         KeyboardButton(text=u"\U0001F449" + "Next")]
+         KeyboardButton("Next")]
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
