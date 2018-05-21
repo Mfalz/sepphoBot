@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup,KeyboardButton, ReplyKeyboardRemove
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters,  CallbackQueryHandler, ConversationHandler
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton, \
+    ReplyKeyboardRemove
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, ConversationHandler, \
+    RegexHandler
 from secrets import *
 import logging
 import os
@@ -39,6 +41,7 @@ def getCostMin(bot, update):
 def dayDeal(bot, update):
     update.message.reply_markdown("[Look for the daily deal!](https://www.daydeal.ch/).")
 
+
 def weekDeal(bot, update):
     update.message.reply_markdown("[Look for the weekly deal!](https://www.daydeal.ch/deal-of-the-week).")
 
@@ -65,32 +68,35 @@ def german(bot, update):
 
 def initMenu(bot, update):
     keyboard2 = [
-        [KeyboardButton(text=u"\U0001F321"+"/getTemperature"), KeyboardButton(text=u"\U0001F49A"+"/getStatus"), KeyboardButton(text=u"\U0001F9E1"+"/setStatus")],
-        [KeyboardButton(text=u"\U0001F494"+"/enableHurt"), KeyboardButton(text=u"\U00002764"+"/disableHurt"), KeyboardButton(text=u"\U0001F449"+"Next")]
+        [KeyboardButton(text=u"\U0001F321" + "/getTemperature"), KeyboardButton(text=u"\U0001F49A" + "/getStatus"),
+         KeyboardButton(text=u"\U0001F9E1" + "/setStatus")],
+        [KeyboardButton(text=u"\U0001F494" + "/enableHurt"), KeyboardButton(text=u"\U00002764" + "/disableHurt"),
+         KeyboardButton(text=u"\U0001F449" + "Next")]
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
-    bot.sendMessage(update.message.chat_id, text="Page zeroa", reply_markup=physical_reply_markup, one_time_keyboard=True)
-    buff = update.message.text
-
+    bot.sendMessage(update.message.chat_id, text="Page zeroa", reply_markup=physical_reply_markup,
+                    one_time_keyboard=True)
     return FIRST_PAGE
-
 
 
 def firstPage(bot, update):
     keyboard3 = [
-        [KeyboardButton(text=u"\U0001F4B0" + "/wallet"), KeyboardButton(text=u"\U0000231A" + "/dailyZeit"),KeyboardButton(text=u"\U0001F9B9" + "/getPhoto")],
-        [KeyboardButton(text=u"\U0001F4B9" + "/dayDeal"), KeyboardButton(text=u"\U0001F911" + "/weekDeal"),KeyboardButton(text=u"\U0001F449" + "Next")]
+        [KeyboardButton(text=u"\U0001F4B0" + "/wallet"), KeyboardButton(text=u"\U0000231A" + "/dailyZeit"),
+         KeyboardButton(text=u"\U0001F9B9" + "/getPhoto")],
+        [KeyboardButton(text=u"\U0001F4B9" + "/dayDeal"), KeyboardButton(text=u"\U0001F911" + "/weekDeal"),
+         KeyboardButton(text=u"\U0001F449" + "Next")]
     ]
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard3)
     bot.sendMessage(update.message.chat_id, text="Page one", reply_markup=physical_reply_markup, one_time_keyboard=True)
-    buff = update.message.text
-    if buff == 'Next':
-        return SECOND_PAGE
-    else:
-        return buff
 
-def secondPage(bot,update):
+    return SECOND_PAGE
+
+def custom_choice(bot, update):
+    bot.sendMessage(update.message.chat_id, text="Ciao mamma", reply_markup=ReplyKeyboardRemove())
+
+
+def secondPage(bot, update):
     keyboard4 = [[KeyboardButton(text=u"\U0001F4BB" + "/digitecDeal"), KeyboardButton(text=u"\U0001F1EA" + "/german")]]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard4)
@@ -101,7 +107,8 @@ def secondPage(bot,update):
     # else:
     #     return buff
 
-def exitKeyboard(bot,update):
+
+def exitKeyboard(bot, update):
     bot.sendMessage(update.message.chat_id, 'Deleting keyboard', reply_markup=ReplyKeyboardRemove())
 
 
@@ -109,7 +116,7 @@ FIRST, SECOND = range(2)
 FIRST_PAGE, SECOND_PAGE = range(2)
 
 
-def menuTest(bot,update):
+def menuTest(bot, update):
     keyboard = [
         [InlineKeyboardButton(u"Next", callback_data=str(FIRST))]
     ]
@@ -119,6 +126,7 @@ def menuTest(bot,update):
         reply_markup=reply_markup
     )
     return FIRST
+
 
 def first(bot, update):
     query = update.callback_query
@@ -140,6 +148,7 @@ def first(bot, update):
     )
     return SECOND
 
+
 def second(bot, update):
     query = update.callback_query
     bot.edit_message_text(
@@ -148,6 +157,7 @@ def second(bot, update):
         text=u"Second CallbackQueryHandler"
     )
     return
+
 
 def getTemperature(bot, update):
     GPIO.setmode(GPIO.BCM)
@@ -352,10 +362,18 @@ def main():
     init_menu_conv_handler = ConversationHandler(
         entry_points=[CommandHandler('initMenu', initMenu)],
         states={
-            FIRST_PAGE: [MessageHandler([Filters.text], firstPage),
-                  CommandHandler('help', help)],
-            SECOND_PAGE: [MessageHandler([Filters.text], secondPage),
-                  CommandHandler('help', help)]
+            FIRST_PAGE: [RegexHandler('^(Next)$',
+                                      firstPage,
+                                      pass_user_data=True),
+                         RegexHandler('^Something else...$',
+                                      custom_choice),
+                         ],
+            SECOND_PAGE: [RegexHandler('^(Next)$',
+                                      secondPage,
+                                      pass_user_data=True),
+                         RegexHandler('^Something else...$',
+                                      custom_choice),
+                         ]
         },
         fallbacks=[CommandHandler('exitKeyboard', exitKeyboard)]
     )
