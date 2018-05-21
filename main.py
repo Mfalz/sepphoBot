@@ -74,7 +74,7 @@ def initMenu(bot, update):
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
-    bot.sendMessage(update.message.chat_id, text="Page zeroabbc", reply_markup=physical_reply_markup,
+    bot.sendMessage(update.message.chat_id, text="Page zero", reply_markup=physical_reply_markup,
                     one_time_keyboard=True)
     return FIRST_PAGE
 
@@ -379,7 +379,7 @@ def main():
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
-    dp.add_handler(CommandHandler("initMenu", initMenu))
+    # dp.add_handler(CommandHandler("initMenu", initMenu))
     dp.add_handler(init_menu_conv_handler)
     # dp.add_handler(conv_handler)
 
