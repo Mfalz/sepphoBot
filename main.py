@@ -70,7 +70,7 @@ def initMenu(bot, update):
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
-    bot.sendMessage(update.message.chat_id, text="Page zeroo", reply_markup=physical_reply_markup, one_time_keyboard=True)
+    bot.sendMessage(update.message.chat_id, text="Page zeroa", reply_markup=physical_reply_markup, one_time_keyboard=True)
     buff = update.message.text
 
     return FIRST_PAGE
@@ -340,14 +340,14 @@ commands = {
 
 def main():
     updater = Updater(sepphobot_telegram_token)
-    conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('menuTest', menuTest)],
-        states={
-            FIRST: [CallbackQueryHandler(first)],
-            SECOND: [CallbackQueryHandler(second)]
-        },
-        fallbacks=[CommandHandler('menuTest', menuTest)]
-    )
+    # conv_handler = ConversationHandler(
+    #     entry_points=[CommandHandler('menuTest', menuTest)],
+    #     states={
+    #         FIRST: [CallbackQueryHandler(first)],
+    #         SECOND: [CallbackQueryHandler(second)]
+    #     },
+    #     fallbacks=[CommandHandler('menuTest', menuTest)]
+    # )
 
     init_menu_conv_handler = ConversationHandler(
         entry_points=[CommandHandler('initMenu', initMenu)],
@@ -364,7 +364,7 @@ def main():
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("initMenu", initMenu))
     dp.add_handler(init_menu_conv_handler)
-    dp.add_handler(conv_handler)
+    # dp.add_handler(conv_handler)
 
     # log all errors
     dp.add_error_handler(error)
