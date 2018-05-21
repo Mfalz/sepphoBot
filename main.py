@@ -362,13 +362,13 @@ def main():
     init_menu_conv_handler = ConversationHandler(
         entry_points=[CommandHandler('initMenu', initMenu)],
         states={
-            FIRST_PAGE: [RegexHandler('^(Next)$',
+            FIRST_PAGE: [RegexHandler('^Next$',
                                       firstPage,
                                       pass_user_data=True),
                          RegexHandler('^Something else...$',
                                       custom_choice),
                          ],
-            SECOND_PAGE: [RegexHandler('^(Next)$',
+            SECOND_PAGE: [RegexHandler('^Next$',
                                       secondPage,
                                       pass_user_data=True),
                          RegexHandler('^Something else...$',
