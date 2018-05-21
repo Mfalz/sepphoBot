@@ -75,7 +75,7 @@ def initMenu(bot, update):
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
-    bot.sendMessage(update.message.chat_id, text="Page zero", reply_markup=physical_reply_markup)
+    bot.sendMessage(update.message.chat_id, text="Page zeroa", reply_markup=physical_reply_markup)
     return FIRST_PAGE
 
 
