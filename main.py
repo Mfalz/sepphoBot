@@ -68,8 +68,7 @@ def german(bot, update):
 
 def initMenu(bot, update):
     keyboard2 = [
-        [KeyboardButton(text=u"\U0001F321" + "/getTemperature"), KeyboardButton(text=u"\U0001F49A" + "/getStatus"),
-         KeyboardButton(text=u"\U0001F9E1" + "/setStatus")],
+        [KeyboardButton(text=u"\U0001F321" + "/getTemperature"), KeyboardButton(text=u"\U0001F49A" + "/getStatus"), KeyboardButton(text=u"\U0001F9E1" + "/setStatus")],
         [KeyboardButton(text=u"\U0001F494" + "/enableHurt"), KeyboardButton(text=u"\U00002764" + "/disableHurt"), KeyboardButton(text=u"\U0001F449"+" Next")]
     ]
 
@@ -81,9 +80,8 @@ def initMenu(bot, update):
 
 def firstPage(bot, update,user_data):
     keyboard3 = [
-        [KeyboardButton(text=u"\U0001F4B0" + "/wallet"), KeyboardButton(text=u"\U0000231A" + "/dailyZeit"),
-         KeyboardButton(text=u"\U0001F4F8" + "/getPhoto")],
-        [KeyboardButton(text=u"\U0001F4B9" + "/dayDeal"), KeyboardButton(text=u"\U0001F911" + "/weekDeal"),
+        [KeyboardButton(text=u"\U0001F4B0" + "/wallet"), KeyboardButton(text=u"\U0000231A" + "/dailyZeit"), KeyboardButton(text=u"\U0001F4F8" + "/getPhoto")],
+        [KeyboardButton(text=u"\U0001F448" + " Back"), KeyboardButton(text=u"\U0001F4B9" + "/dayDeal"),
          KeyboardButton(text=u"\U0001F449" + " Next")]
     ]
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard3)
@@ -96,7 +94,8 @@ def custom_choice(bot, update, user_data):
 
 
 def secondPage(bot, update, user_data):
-    keyboard4 = [[KeyboardButton(text=u"\U0001F4BB" + "/digitecDeal"), KeyboardButton(text=u"\U0001F468" + "/german")]]
+    keyboard4 = [[KeyboardButton(text=u"\U0001F911" + "/weekDeal"), KeyboardButton(text=u"\U0001F468" + "/german")],
+                 [KeyboardButton(text=u"\U0001F448" + " Back"), KeyboardButton(text=u"\U0001F4BB" + "/digitecDeal")]]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard4)
     bot.sendMessage(update.message.chat_id, text="Page two", reply_markup=physical_reply_markup)
@@ -364,11 +363,17 @@ def main():
             FIRST_PAGE: [RegexHandler('^'+u"\U0001F449"+" Next"+'$',
                                       firstPage,
                                       pass_user_data=True),
+                         RegexHandler('^' + u"\U0001F448"+" Back"+'$',
+                                      initMenu,
+                                      pass_user_data=True),
                          RegexHandler('^Something else...$',
                                       custom_choice),
                          ],
             SECOND_PAGE: [RegexHandler('^'+u"\U0001F449"+" Next"+'$',
                                       secondPage,
+                                      pass_user_data=True),
+                          RegexHandler('^'+u"\U0001F448"+" Back"+'$',
+                                      firstPage,
                                       pass_user_data=True),
                          RegexHandler('^Something else...$',
                                       custom_choice),
