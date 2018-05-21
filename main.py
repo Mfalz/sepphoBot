@@ -70,8 +70,7 @@ def initMenu(bot, update):
     keyboard2 = [
         [KeyboardButton(text=u"\U0001F321" + "/getTemperature"), KeyboardButton(text=u"\U0001F49A" + "/getStatus"),
          KeyboardButton(text=u"\U0001F9E1" + "/setStatus")],
-        [KeyboardButton(text=u"\U0001F494" + "/enableHurt"), KeyboardButton(text=u"\U00002764" + "/disableHurt"),
-        "Next"]
+        [KeyboardButton(text=u"\U0001F494" + "/enableHurt"), KeyboardButton(text=u"\U00002764" + "/disableHurt"), "Next"]
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
@@ -80,7 +79,7 @@ def initMenu(bot, update):
     return FIRST_PAGE
 
 
-def firstPage(bot, update):
+def firstPage(bot, update,user_data):
     keyboard3 = [
         [KeyboardButton(text=u"\U0001F4B0" + "/wallet"), KeyboardButton(text=u"\U0000231A" + "/dailyZeit"),
          KeyboardButton(text=u"\U0001F9B9" + "/getPhoto")],
@@ -92,11 +91,11 @@ def firstPage(bot, update):
 
     return SECOND_PAGE
 
-def custom_choice(bot, update):
+def custom_choice(bot, update, user_data):
     bot.sendMessage(update.message.chat_id, text="Ciao mamma", reply_markup=ReplyKeyboardRemove())
 
 
-def secondPage(bot, update):
+def secondPage(bot, update, user_data):
     keyboard4 = [[KeyboardButton(text=u"\U0001F4BB" + "/digitecDeal"), KeyboardButton(text=u"\U0001F1EA" + "/german")]]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard4)
