@@ -86,7 +86,8 @@ def secondPage(bot,update):
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard4)
     update.message.reply_text('Next page 2', reply_markup=physical_reply_markup)
 
-FIRST, SECOND, FIRST_PAGE, SECOND_PAGE = range(2)
+FIRST, SECOND = range(2)
+FIRST_PAGE, SECOND_PAGE = range(2)
 
 
 def menuTest(bot,update):
