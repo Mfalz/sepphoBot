@@ -18,18 +18,18 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
-temperature_button = u"\U0001F321" + "/getTemperature"
-get_status_button = u"\U0001F49A" + "/getStatus"
-set_status_button = u"\U0001F9E1" + "/setStatus"
-enable_hurt_button = u"\U0001F494" + "/enableHurt"
-disable_hurt_button = u"\U00002764" + "/disableHurt"
-wallet_button = u"\U0001F4B0" + "/wallet"
-daily_zeit_button = u"\U0000231A" + "/dailyZeit"
-get_photo_button = u"\U0001F4F8" + "/getPhoto"
-day_deal_button = u"\U0001F4B9" + "/dayDeal"
-week_deal_button = u"\U0001F911" + "/weekDeal"
-german_button = u"\U0001F468" + "/german"
-digitec_deal_button = u"\U0001F4BB" + "/digitecDeal"
+temperature_button = u"\U0001F321" + "Temperature"
+get_status_button = u"\U0001F49A" + "Get Status"
+set_status_button = u"\U0001F9E1" + "Set Status"
+enable_hurt_button = u"\U0001F494" + "Enable Hurt"
+disable_hurt_button = u"\U00002764" + "Disable Hurt"
+wallet_button = u"\U0001F4B0" + "Wallet"
+daily_zeit_button = u"\U0000231A" + "Daily Zeit"
+get_photo_button = u"\U0001F4F8" + "Get Photo"
+day_deal_button = u"\U0001F4B9" + "Day Deal"
+week_deal_button = u"\U0001F911" + "Week Deal"
+german_button = u"\U0001F468" + "German"
+digitec_deal_button = u"\U0001F4BB" + "Digitec Deal"
 
 back_button = u"\U0001F448" + " Back"
 next_button = u"\U0001F449" + " Next"
@@ -220,31 +220,8 @@ def isAuthorized(bot, update):
     return True
 
 
-def getStatus(bot, update):
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setwarnings(False)
-    response = ""
-    id_user = update.message.from_user.id
-    print(int(id_user))
-    if (isAuthorized(bot, update) == False):
-        response = "I'm sorry but I can answer only to my maker"
-    else:
-        # check relay status
-        try:
-            relay_status = open("/tmp/autoPI.txt", "r").readline()
-        except IOError:
-            relay_status = -1
-        relay_status = int(relay_status)
-        my_ip = urlopen('http://ip.42.pl/raw').read()
-        response += "IP address = " + str(my_ip) + "\n"
-        response += "Mode: " + str(getAutoBit()) + "\n"
-        if (relay_status == 1):
-            response += "The relay is ON, Sir"
-        elif (relay_status == -1):
-            response += "The relay is UNKNOW, Sir"
-        else:
-            response += "The relay is OFF, Sir"
-    update.message.reply_text(response)
+def get_status_menu(bot, update, user_data):
+    getStatus(bot, update)
 
 
 def isAuthorized(bot, update):
@@ -282,6 +259,10 @@ def getStatus(bot, update):
     update.message.reply_text(response)
 
 
+def set_status_menu(bot, update,user_data):
+    setStatus(bot, update)
+
+
 def setStatus(bot, update):
     if (isAuthorized(bot, update) == False):
         update.message.reply_text("I'm so sorry, you can't set status :c")
@@ -304,12 +285,20 @@ def setStatus(bot, update):
 stopHurt = 0
 
 
+def disable_hurt_menu(bot, update, user_data):
+    disableHurt(bot, update)
+
+
 def disableHurt(bot, update):
     global stopHurt
     if (isAuthorized(bot, update) == False):
         return
     stopHurt = 1
     update.message.reply_text("Stopping Hurt system...")
+
+
+def enable_hurt_menu(bot, update, user_data):
+    enableHurt(bot, update)
 
 
 def enableHurt(bot, update):
@@ -384,16 +373,16 @@ def main():
                                              get_temperature_menu,
                                              pass_user_data=True),
                                 RegexHandler('^' + get_status_button + '$',
-                                             getStatus,
+                                             get_status_menu,
                                              pass_user_data=True),
                                 RegexHandler('^' + set_status_button + '$',
-                                             setStatus,
+                                             set_status_menu,
                                              pass_user_data=True),
                                 RegexHandler('^' + enable_hurt_button + '$',
-                                             enableHurt,
+                                             enable_hurt_menu,
                                              pass_user_data=True),
                                 RegexHandler('^' + disable_hurt_button + '$',
-                                             disableHurt,
+                                             disable_hurt_menu,
                                              pass_user_data=True),
                                 RegexHandler('^' + next_button + '$',
                                              second_page,
