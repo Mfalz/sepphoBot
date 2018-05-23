@@ -57,28 +57,56 @@ def getCostMin(bot, update):
     notWorksYet(bot, update)
 
 
+def day_deal_menu(bot, update, user_data):
+    dayDeal(bot, update)
+
+
 def dayDeal(bot, update):
     update.message.reply_markdown("[Look for the daily deal!](https://www.daydeal.ch/).")
+
+
+def week_deal_menu(bot, update, user_data):
+    weekDeal(bot, update)
 
 
 def weekDeal(bot, update):
     update.message.reply_markdown("[Look for the weekly deal!](https://www.daydeal.ch/deal-of-the-week).")
 
 
+def digitec_deal_menu(bot, update, user_data):
+    digitecDeal(bot, update)
+
+
 def digitecDeal(bot, update):
     notWorksYet(bot, update)
+
+
+def daily_zeit_menu(bot, update, user_data):
+    dailyZeit(bot, update)
 
 
 def dailyZeit(bot, update):
     notWorksYet(bot, update)
 
 
+def get_photo_menu(bot, update, user_data):
+    getPhoto(bot, update)
+
+
 def getPhoto(bot, update):
     notWorksYet(bot, update)
 
 
+def wallet_menu(bot, update, user_data):
+    wallet(bot, update)
+
+
 def wallet(bot, update):
     notWorksYet(bot, update)
+
+
+def german_menu(bot, update, user_data):
+    german(bot, update)
 
 
 def german(bot, update):
@@ -176,7 +204,7 @@ def second(bot, update):
     return
 
 
-def get_temperature_menu(bot, update,user_data):
+def get_temperature_menu(bot, update, user_data):
     getTemperature(bot, update)
 
 
@@ -223,6 +251,10 @@ def isAuthorized(bot, update):
     return True
 
 
+def get_status_menu(bot, update, user_data):
+    getStatus(bot, update)
+
+
 def getStatus(bot, update):
     id_user = update.message.from_user.id
     int(id_user)
@@ -251,10 +283,6 @@ def getStatus(bot, update):
     update.message.reply_text(response)
 
 
-def get_status_menu(bot, update, user_data):
-    getStatus(bot, update)
-
-
 def isAuthorized(bot, update):
     id_user = update.message.from_user.id
     if (int(id_user) != int(sepphobot_auth_id)):
@@ -263,7 +291,7 @@ def isAuthorized(bot, update):
     update.message.reply_text(response)
 
 
-def set_status_menu(bot, update,user_data):
+def set_status_menu(bot, update, user_data):
     setStatus(bot, update)
 
 
@@ -285,6 +313,7 @@ def setStatus(bot, update):
     else:
         response = "Nothing to do here"
     update.message.reply_text(response)
+
 
 stopHurt = 0
 
@@ -400,15 +429,34 @@ def main():
                                 RegexHandler('^' + back_button + '$',
                                              startMenu)
                                 ],
-            SECOND_PAGE_RESULT: [RegexHandler('^' + next_button + '$',
+            SECOND_PAGE_RESULT: [RegexHandler('^' + wallet_button + '$',
+                                              wallet_menu,
+                                              pass_user_data=True),
+                                 RegexHandler('^' + daily_zeit_button + '$',
+                                              daily_zeit_menu,
+                                              pass_user_data=True),
+                                 RegexHandler('^' + get_photo_button + '$',
+                                              get_photo_menu,
+                                              pass_user_data=True),
+                                 RegexHandler('^' + day_deal_button + '$',
+                                              day_deal_menu,
+                                              pass_user_data=True),
+                                 RegexHandler('^' + next_button + '$',
                                               third_page,
                                               pass_user_data=True),
                                  RegexHandler('^' + back_button + '$',
-                                              startMenu),
-                                 RegexHandler('^Something else...$',
-                                              custom_choice)
+                                              startMenu)
                                  ],
-            THIRD_PAGE_RESULT: [RegexHandler('^' + back_button + '$',
+            THIRD_PAGE_RESULT: [RegexHandler('^' + week_deal_button + '$',
+                                             week_deal_menu,
+                                             pass_user_data=True),
+                                RegexHandler('^' + german_button + '$',
+                                             german_menu,
+                                             pass_user_data=True),
+                                RegexHandler('^' + digitec_deal_button + '$',
+                                             digitec_deal_menu,
+                                             pass_user_data=True),
+                                RegexHandler('^' + back_button + '$',
                                              second_page,
                                              pass_user_data=True),
                                 RegexHandler('^Something else...$',
