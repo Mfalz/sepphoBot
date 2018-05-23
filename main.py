@@ -39,7 +39,7 @@ not_yet_in_production = "I'm sorry but this feature is not yet in production"
 
 
 def start(bot, update):
-    update.message.reply_text('Hi! I\'m SepphoBot!')
+    update.message.reply_text('Hi! I\'m SepphoBot!!!')
 
 
 def command_list(bot, update):
