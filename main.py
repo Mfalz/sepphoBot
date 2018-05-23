@@ -66,7 +66,7 @@ def german(bot, update):
     notWorksYet(bot, update)
 
 
-def initMenu(bot, update, user_data):
+def initMenu(bot, update):
     keyboard2 = [
         [KeyboardButton(text=u"\U0001F321" + "/getTemperature"), KeyboardButton(text=u"\U0001F49A" + "/getStatus"),
          KeyboardButton(text=u"\U0001F9E1" + "/setStatus")],
@@ -363,8 +363,7 @@ def main():
                                       firstPage,
                                       pass_user_data=True),
                          RegexHandler('^' + u"\U0001F448" + " Back" + '$',
-                                      initMenu,
-                                      pass_user_data=True),
+                                      initMenu),
                          RegexHandler('^Something else...$',
                                       custom_choice)
                          ],
@@ -372,8 +371,7 @@ def main():
                                        secondPage,
                                        pass_user_data=True),
                           RegexHandler('^' + u"\U0001F448" + " Back" + '$',
-                                       initMenu,
-                                       pass_user_data=True),
+                                       initMenu),
                           RegexHandler('^Something else...$',
                                        custom_choice)
                           ],
