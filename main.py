@@ -173,7 +173,11 @@ def second(bot, update):
     return
 
 
-def getTemperature(bot, update, user_data):
+def get_temperature_menu(bot, update,user_data):
+    getTemperature(bot, update)
+
+
+def getTemperature(bot, update):
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
     # enable GPIO4 for the temperature sensor
@@ -377,15 +381,20 @@ def main():
         entry_points=[CommandHandler('startMenu', startMenu)],
         states={
             START_MENU_RESULT: [RegexHandler('^' + temperature_button + '$',
-                                             getTemperature),
+                                             get_temperature_menu,
+                                             pass_user_data=True),
                                 RegexHandler('^' + get_status_button + '$',
-                                             getStatus),
+                                             getStatus,
+                                             pass_user_data=True),
                                 RegexHandler('^' + set_status_button + '$',
-                                             setStatus),
+                                             setStatus,
+                                             pass_user_data=True),
                                 RegexHandler('^' + enable_hurt_button + '$',
-                                             enableHurt),
+                                             enableHurt,
+                                             pass_user_data=True),
                                 RegexHandler('^' + disable_hurt_button + '$',
-                                             disableHurt),
+                                             disableHurt,
+                                             pass_user_data=True),
                                 RegexHandler('^' + next_button + '$',
                                              second_page,
                                              pass_user_data=True),
@@ -423,7 +432,7 @@ def main():
     dp.add_handler(CommandHandler("contrib", contrib))
 
     # raspberry PI features
-    # dp.add_handler(CommandHandler("getTemperature", getTemperature))
+    dp.add_handler(CommandHandler("getTemperature", getTemperature))
     dp.add_handler(CommandHandler("getStatus", getStatus))
     dp.add_handler(CommandHandler("setStatus", setStatus))
 
