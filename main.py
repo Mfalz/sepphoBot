@@ -34,7 +34,7 @@ digitec_deal_button = u"\U0001F4BB" + "Digitec Deal"
 back_button = u"\U0001F448" + " Back"
 next_button = u"\U0001F449" + " Next"
 
-not_enough_permissions = "I'm so sorry, you can't set status :c"
+not_enough_permissions = "You are not authorized"
 not_yet_in_production = "I'm sorry but this feature is not yet in production"
 
 
@@ -241,7 +241,7 @@ def getStatus(bot, update):
     id_user = update.message.from_user.id
     int(id_user)
     if (isAuthorized(bot, update) == False):
-        response = "You are not authorized, your ID is: " + id_user
+        response = not_enough_permissions + " your ID is: " + id_user
     else:
         # check relay status
         try:
