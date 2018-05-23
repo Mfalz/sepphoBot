@@ -18,6 +18,21 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
+temperature_button = u"\U0001F321" + "/getTemperature"
+get_status_button = u"\U0001F49A" + "/getStatus"
+set_status_button = u"\U0001F9E1" + "/setStatus"
+enable_hurt_button = u"\U0001F494" + "/enableHurt"
+disable_hurt_button = u"\U00002764" + "/disableHurt"
+wallet_button = u"\U0001F4B0" + "/wallet"
+daily_zeit_button = u"\U0000231A" + "/dailyZeit"
+get_photo_button = u"\U0001F4F8" + "/getPhoto"
+day_deal_button = u"\U0001F4B9" + "/dayDeal"
+week_deal_button = u"\U0001F911" + "/weekDeal"
+german_button = u"\U0001F468" + "/german"
+digitec_deal_button = u"\U0001F4BB" + "/digitecDeal"
+
+back_button = u"\U0001F448" + " Back"
+next_button = u"\U0001F449" + " Next"
 
 def start(bot, update):
     update.message.reply_text('Hi! I\'m SepphoBot!2')
@@ -66,12 +81,12 @@ def german(bot, update):
     notWorksYet(bot, update)
 
 
-def start_menu(bot, update):
+def startMenu(bot, update):
     keyboard2 = [
-        [KeyboardButton(text=u"\U0001F321" + "/getTemperature"), KeyboardButton(text=u"\U0001F49A" + "/getStatus"),
-         KeyboardButton(text=u"\U0001F9E1" + "/setStatus")],
-        [KeyboardButton(text=u"\U0001F494" + "/enableHurt"), KeyboardButton(text=u"\U00002764" + "/disableHurt"),
-         KeyboardButton(text=u"\U0001F449" + " Next")]
+        [KeyboardButton(text=temperature_button), KeyboardButton(text=get_status_button),
+         KeyboardButton(text=set_status_button)],
+        [KeyboardButton(text=enable_hurt_button), KeyboardButton(text=disable_hurt_button),
+         KeyboardButton(text=next_button)]
     ]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
@@ -81,10 +96,10 @@ def start_menu(bot, update):
 
 def second_page(bot, update, user_data):
     keyboard3 = [
-        [KeyboardButton(text=u"\U0001F4B0" + "/wallet"), KeyboardButton(text=u"\U0000231A" + "/dailyZeit"),
-         KeyboardButton(text=u"\U0001F4F8" + "/getPhoto")],
-        [KeyboardButton(text=u"\U0001F448" + " Back"), KeyboardButton(text=u"\U0001F4B9" + "/dayDeal"),
-         KeyboardButton(text=u"\U0001F449" + " Next")]
+        [KeyboardButton(text=wallet_button), KeyboardButton(text=daily_zeit_button),
+         KeyboardButton(text=get_photo_button)],
+        [KeyboardButton(text=back_button), KeyboardButton(text=day_deal_button),
+         KeyboardButton(text=next_button)]
     ]
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard3)
     bot.sendMessage(update.message.chat_id, text="Page one", reply_markup=physical_reply_markup)
@@ -93,8 +108,8 @@ def second_page(bot, update, user_data):
 
 
 def third_page(bot, update, user_data):
-    keyboard4 = [[KeyboardButton(text=u"\U0001F911" + "/weekDeal"), KeyboardButton(text=u"\U0001F468" + "/german")],
-                 [KeyboardButton(text=u"\U0001F448" + " Back"), KeyboardButton(text=u"\U0001F4BB" + "/digitecDeal")]]
+    keyboard4 = [[KeyboardButton(text=week_deal_button), KeyboardButton(text=german_button)],
+                 [KeyboardButton(text=back_button), KeyboardButton(text=digitec_deal_button)]]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard4)
     bot.sendMessage(update.message.chat_id, text="Page two", reply_markup=physical_reply_markup)
@@ -357,25 +372,25 @@ def main():
     # )
 
     init_menu_conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('start_menu', start_menu)],
+        entry_points=[CommandHandler('startMenu', startMenu)],
         states={
-            START_MENU_RESULT: [RegexHandler('^' + u"\U0001F449" + " Next" + '$',
+            START_MENU_RESULT: [RegexHandler('^' + next_button + '$',
                                       second_page,
                                       pass_user_data=True),
-                         RegexHandler('^' + u"\U0001F448" + " Back" + '$',
-                                      start_menu),
+                         RegexHandler('^' + back_button + '$',
+                                      startMenu),
                          RegexHandler('^Something else...$',
                                       custom_choice)
                          ],
-            SECOND_PAGE_RESULT: [RegexHandler('^' + u"\U0001F449" + " Next" + '$',
+            SECOND_PAGE_RESULT: [RegexHandler('^' + next_button + '$',
                                        third_page,
                                        pass_user_data=True),
-                          RegexHandler('^' + u"\U0001F448" + " Back" + '$',
-                                       start_menu),
+                          RegexHandler('^' + back_button + '$',
+                                       startMenu),
                           RegexHandler('^Something else...$',
                                        custom_choice)
                           ],
-            THIRD_PAGE_RESULT: [RegexHandler('^' + u"\U0001F448" + " Back" + '$',
+            THIRD_PAGE_RESULT: [RegexHandler('^' + back_button + '$',
                                       second_page,
                                       pass_user_data=True),
                          RegexHandler('^Something else...$',
@@ -387,7 +402,7 @@ def main():
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
-    # dp.add_handler(CommandHandler("start_menu", start_menu))
+    # dp.add_handler(CommandHandler("startMenu", startMenu))
     dp.add_handler(init_menu_conv_handler)
     # dp.add_handler(conv_handler)
 
