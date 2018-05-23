@@ -223,26 +223,16 @@ def isAuthorized(bot, update):
     return True
 
 
-def get_status_menu(bot, update, user_data):
-    getStatus(bot, update)
-
-
-def isAuthorized(bot, update):
-    id_user = update.message.from_user.id
-    if (int(id_user) != int(sepphobot_auth_id)):
-        return False
-    return True
-
-
 def getStatus(bot, update):
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setwarnings(False)
-    response = ""
     id_user = update.message.from_user.id
     int(id_user)
     if (isAuthorized(bot, update) == False):
         response = not_enough_permissions + " your ID is: " + id_user
     else:
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        response = ""
+
         # check relay status
         try:
             relay_status = open("/tmp/autoPI.txt", "r").readline()
@@ -261,14 +251,26 @@ def getStatus(bot, update):
     update.message.reply_text(response)
 
 
+def get_status_menu(bot, update, user_data):
+    getStatus(bot, update)
+
+
+def isAuthorized(bot, update):
+    id_user = update.message.from_user.id
+    if (int(id_user) != int(sepphobot_auth_id)):
+        return False
+    return True
+    update.message.reply_text(response)
+
+
 def set_status_menu(bot, update,user_data):
     setStatus(bot, update)
 
 
 def setStatus(bot, update):
+    response = ""
     if (isAuthorized(bot, update) == False):
-        update.message.reply_text(not_enough_permissions)
-        return 0
+        response = not_enough_permissions
     command = "" + update.message.text
     command = str(command[11:])
     command = command.upper()
@@ -276,13 +278,13 @@ def setStatus(bot, update):
     if (len(command) > 0):
         if (command == "AUTO"):
             setAutoBit(1)
-            update.message.reply_text("Mode setted to AUTO")
+            response = "Mode setted to AUTO"
         elif (command == "MANUAL"):
             setAutoBit(0)
-            update.message.reply_text("Mode setted to MANUAL")
+            response = "Mode setted to MANUAL"
     else:
-        print("Nothing to do here")
-
+        response = "Nothing to do here"
+    update.message.reply_text(response)
 
 stopHurt = 0
 
