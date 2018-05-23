@@ -34,9 +34,12 @@ digitec_deal_button = u"\U0001F4BB" + "Digitec Deal"
 back_button = u"\U0001F448" + " Back"
 next_button = u"\U0001F449" + " Next"
 
+not_enough_permissions = "I'm so sorry, you can't set status :c"
+not_yet_in_production = "I'm sorry but this feature is not yet in production"
+
 
 def start(bot, update):
-    update.message.reply_text('Hi! I\'m SepphoBot!2')
+    update.message.reply_text('Hi! I\'m SepphoBot!')
 
 
 def command_list(bot, update):
@@ -236,7 +239,6 @@ def getStatus(bot, update):
     GPIO.setwarnings(False)
     response = ""
     id_user = update.message.from_user.id
-    print
     int(id_user)
     if (isAuthorized(bot, update) == False):
         response = "You are not authorized, your ID is: " + id_user
@@ -265,7 +267,7 @@ def set_status_menu(bot, update,user_data):
 
 def setStatus(bot, update):
     if (isAuthorized(bot, update) == False):
-        update.message.reply_text("I'm so sorry, you can't set status :c")
+        update.message.reply_text(not_enough_permissions)
         return 0
     command = "" + update.message.text
     command = str(command[11:])
@@ -291,10 +293,13 @@ def disable_hurt_menu(bot, update, user_data):
 
 def disableHurt(bot, update):
     global stopHurt
+    response = ""
     if (isAuthorized(bot, update) == False):
-        return
-    stopHurt = 1
-    update.message.reply_text("Stopping Hurt system...")
+        response = not_enough_permissions
+    else:
+        stopHurt = 1
+        response = "Stopping Hurt system..."
+    update.message.reply_text(response)
 
 
 def enable_hurt_menu(bot, update, user_data):
@@ -303,10 +308,13 @@ def enable_hurt_menu(bot, update, user_data):
 
 def enableHurt(bot, update):
     global stopHurt
+    response = ""
     if (isAuthorized(bot, update) == False):
-        return
-    stopHurt = 0
-    update.message.reply_text("Restarting Hurt system...")
+        response = not_enough_permissions
+    else:
+        stopHurt = 0
+        response = "Restarting Hurt system..."
+    update.message.reply_text(response)
 
 
 def hurt(bot, update):
@@ -323,7 +331,7 @@ def hurt(bot, update):
 
 
 def notWorksYet(bot, update):
-    update.message.reply_text("I'm sorry but this feature is not yet in production")
+    update.message.reply_text(not_yet_in_production)
 
 
 def contrib(bot, update):
