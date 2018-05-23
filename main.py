@@ -34,6 +34,7 @@ digitec_deal_button = u"\U0001F4BB" + "/digitecDeal"
 back_button = u"\U0001F448" + " Back"
 next_button = u"\U0001F449" + " Next"
 
+
 def start(bot, update):
     update.message.reply_text('Hi! I\'m SepphoBot!2')
 
@@ -119,6 +120,7 @@ def third_page(bot, update, user_data):
 def custom_choice(bot, update, user_data):
     bot.sendMessage(update.message.chat_id, text="Ciao mamma", reply_markup=ReplyKeyboardRemove())
 
+
 def exitKeyboard(bot, update):
     bot.sendMessage(update.message.chat_id, 'Deleting keyboard', reply_markup=ReplyKeyboardRemove())
 
@@ -171,7 +173,7 @@ def second(bot, update):
     return
 
 
-def getTemperature(bot, update):
+def getTemperature(bot, update, user_data):
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
     # enable GPIO4 for the temperature sensor
@@ -374,35 +376,42 @@ def main():
     init_menu_conv_handler = ConversationHandler(
         entry_points=[CommandHandler('startMenu', startMenu)],
         states={
-            START_MENU_RESULT: [RegexHandler('^' + next_button + '$',
-                                      second_page,
-                                      pass_user_data=True),
-                         RegexHandler('^' + back_button + '$',
-                                      startMenu),
-                         RegexHandler('^Something else...$',
-                                      custom_choice)
-                         ],
+            START_MENU_RESULT: [RegexHandler('^' + temperature_button + '$',
+                                             getTemperature),
+                                RegexHandler('^' + get_status_button + '$',
+                                             getStatus),
+                                RegexHandler('^' + set_status_button + '$',
+                                             setStatus),
+                                RegexHandler('^' + enable_hurt_button + '$',
+                                             enableHurt),
+                                RegexHandler('^' + disable_hurt_button + '$',
+                                             disableHurt),
+                                RegexHandler('^' + next_button + '$',
+                                             second_page,
+                                             pass_user_data=True),
+                                RegexHandler('^' + back_button + '$',
+                                             startMenu)
+                                ],
             SECOND_PAGE_RESULT: [RegexHandler('^' + next_button + '$',
-                                       third_page,
-                                       pass_user_data=True),
-                          RegexHandler('^' + back_button + '$',
-                                       startMenu),
-                          RegexHandler('^Something else...$',
-                                       custom_choice)
-                          ],
+                                              third_page,
+                                              pass_user_data=True),
+                                 RegexHandler('^' + back_button + '$',
+                                              startMenu),
+                                 RegexHandler('^Something else...$',
+                                              custom_choice)
+                                 ],
             THIRD_PAGE_RESULT: [RegexHandler('^' + back_button + '$',
-                                      second_page,
-                                      pass_user_data=True),
-                         RegexHandler('^Something else...$',
-                                      custom_choice),
-                         ]
+                                             second_page,
+                                             pass_user_data=True),
+                                RegexHandler('^Something else...$',
+                                             custom_choice),
+                                ]
         },
         fallbacks=[CommandHandler('exitKeyboard', exitKeyboard)]
     )
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
-    # dp.add_handler(CommandHandler("startMenu", startMenu))
     dp.add_handler(init_menu_conv_handler)
     # dp.add_handler(conv_handler)
 
