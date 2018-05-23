@@ -148,10 +148,6 @@ def third_page(bot, update, user_data):
     return THIRD_PAGE_RESULT
 
 
-def custom_choice(bot, update, user_data):
-    bot.sendMessage(update.message.chat_id, text="Ciao mamma", reply_markup=ReplyKeyboardRemove())
-
-
 def exitKeyboard(bot, update):
     bot.sendMessage(update.message.chat_id, 'Deleting keyboard', reply_markup=ReplyKeyboardRemove())
 
@@ -458,9 +454,7 @@ def main():
                                              pass_user_data=True),
                                 RegexHandler('^' + back_button + '$',
                                              second_page,
-                                             pass_user_data=True),
-                                RegexHandler('^Something else...$',
-                                             custom_choice),
+                                             pass_user_data=True)
                                 ]
         },
         fallbacks=[CommandHandler('exitKeyboard', exitKeyboard)]
