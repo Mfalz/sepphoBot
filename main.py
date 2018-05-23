@@ -66,7 +66,7 @@ def german(bot, update):
     notWorksYet(bot, update)
 
 
-def initMenu(bot, update):
+def start_menu(bot, update):
     keyboard2 = [
         [KeyboardButton(text=u"\U0001F321" + "/getTemperature"), KeyboardButton(text=u"\U0001F49A" + "/getStatus"),
          KeyboardButton(text=u"\U0001F9E1" + "/setStatus")],
@@ -76,10 +76,10 @@ def initMenu(bot, update):
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard2)
     bot.sendMessage(update.message.chat_id, text="Page zero", reply_markup=physical_reply_markup)
-    return FIRST_PAGE
+    return START_MENU_RESULT
 
 
-def firstPage(bot, update, user_data):
+def second_page(bot, update, user_data):
     keyboard3 = [
         [KeyboardButton(text=u"\U0001F4B0" + "/wallet"), KeyboardButton(text=u"\U0000231A" + "/dailyZeit"),
          KeyboardButton(text=u"\U0001F4F8" + "/getPhoto")],
@@ -89,28 +89,28 @@ def firstPage(bot, update, user_data):
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard3)
     bot.sendMessage(update.message.chat_id, text="Page one", reply_markup=physical_reply_markup)
 
-    return SECOND_PAGE
+    return SECOND_PAGE_RESULT
 
 
-def custom_choice(bot, update, user_data):
-    bot.sendMessage(update.message.chat_id, text="Ciao mamma", reply_markup=ReplyKeyboardRemove())
-
-
-def secondPage(bot, update, user_data):
+def third_page(bot, update, user_data):
     keyboard4 = [[KeyboardButton(text=u"\U0001F911" + "/weekDeal"), KeyboardButton(text=u"\U0001F468" + "/german")],
                  [KeyboardButton(text=u"\U0001F448" + " Back"), KeyboardButton(text=u"\U0001F4BB" + "/digitecDeal")]]
 
     physical_reply_markup = ReplyKeyboardMarkup(keyboard=keyboard4)
     bot.sendMessage(update.message.chat_id, text="Page two", reply_markup=physical_reply_markup)
-    return THIRD_PAGE
+    return THIRD_PAGE_RESULT
+
+
+def custom_choice(bot, update, user_data):
+    bot.sendMessage(update.message.chat_id, text="Ciao mamma", reply_markup=ReplyKeyboardRemove())
 
 def exitKeyboard(bot, update):
     bot.sendMessage(update.message.chat_id, 'Deleting keyboard', reply_markup=ReplyKeyboardRemove())
 
 
 FIRST, SECOND = range(2)
-# FIRST_PAGE, SECOND_PAGE = range(2)
-FIRST_PAGE, SECOND_PAGE, THIRD_PAGE = range(3)
+# START_MENU_RESULT, SECOND_PAGE_RESULT = range(2)
+START_MENU_RESULT, SECOND_PAGE_RESULT, THIRD_PAGE_RESULT = range(3)
 
 
 def menuTest(bot, update):
@@ -357,26 +357,26 @@ def main():
     # )
 
     init_menu_conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('initMenu', initMenu)],
+        entry_points=[CommandHandler('start_menu', start_menu)],
         states={
-            FIRST_PAGE: [RegexHandler('^' + u"\U0001F449" + " Next" + '$',
-                                      firstPage,
+            START_MENU_RESULT: [RegexHandler('^' + u"\U0001F449" + " Next" + '$',
+                                      second_page,
                                       pass_user_data=True),
                          RegexHandler('^' + u"\U0001F448" + " Back" + '$',
-                                      initMenu),
+                                      start_menu),
                          RegexHandler('^Something else...$',
                                       custom_choice)
                          ],
-            SECOND_PAGE: [RegexHandler('^' + u"\U0001F449" + " Next" + '$',
-                                       secondPage,
+            SECOND_PAGE_RESULT: [RegexHandler('^' + u"\U0001F449" + " Next" + '$',
+                                       third_page,
                                        pass_user_data=True),
                           RegexHandler('^' + u"\U0001F448" + " Back" + '$',
-                                       initMenu),
+                                       start_menu),
                           RegexHandler('^Something else...$',
                                        custom_choice)
                           ],
-            THIRD_PAGE: [RegexHandler('^' + u"\U0001F448" + " Back" + '$',
-                                      firstPage,
+            THIRD_PAGE_RESULT: [RegexHandler('^' + u"\U0001F448" + " Back" + '$',
+                                      second_page,
                                       pass_user_data=True),
                          RegexHandler('^Something else...$',
                                       custom_choice),
@@ -387,7 +387,7 @@ def main():
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
-    # dp.add_handler(CommandHandler("initMenu", initMenu))
+    # dp.add_handler(CommandHandler("start_menu", start_menu))
     dp.add_handler(init_menu_conv_handler)
     # dp.add_handler(conv_handler)
 
