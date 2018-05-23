@@ -423,7 +423,7 @@ def main():
     dp.add_handler(CommandHandler("contrib", contrib))
 
     # raspberry PI features
-    dp.add_handler(CommandHandler("getTemperature", getTemperature))
+    # dp.add_handler(CommandHandler("getTemperature", getTemperature))
     dp.add_handler(CommandHandler("getStatus", getStatus))
     dp.add_handler(CommandHandler("setStatus", setStatus))
 
