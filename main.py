@@ -4,18 +4,18 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
     RegexHandler
 import logging
 
-from .utils.Constant import *
-from .utils.Message import *
-from .utils.Secret import *
-from .utils.User import *
-from .StartMenu import *
+from bin.utils.Constant import *
+from bin.utils.Message import *
+from bin.utils.Secret import *
+from bin.utils.User import *
+from bin.StartMenu import *
 
-from .Deal import *
-from .Funny import *
-from .Sensor import *
-from .Zeit import *
-from .Wallet import *
-from .Nas import *
+from bin.Deal import *
+from bin.Funny import *
+from bin.Sensor import *
+from bin.Zeit import *
+from bin.Wallet import *
+from bin.Nas import *
 
 
 def start(bot, update):
