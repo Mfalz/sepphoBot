@@ -181,7 +181,7 @@ def main():
 
     dp.add_handler(start_menu_conv_handler)
 
-    for command in commands.item():
+    for command in commands:
         global db
         db.add_handler(CommandHandler(command, command["cmd"]))
 
