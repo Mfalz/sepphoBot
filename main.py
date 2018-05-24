@@ -95,7 +95,6 @@ commands = {
     }
 }
 
-
 def command_list(bot, update):
     commands_string = ""
     for command, description in commands.items():
@@ -181,8 +180,8 @@ def main():
 
     dp.add_handler(start_menu_conv_handler)
 
-    for command in commands:
-        dp.add_handler(CommandHandler(command, command["cmd"]))
+    for command, options in commands.items():
+        dp.add_handler(CommandHandler(command, options["cmd"]))
 
     # log all errors
     dp.add_error_handler(error)
