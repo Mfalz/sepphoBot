@@ -1,5 +1,5 @@
 from secrets import *
-from urllib2 import urlopen
+import os
 
 
 class Secret:
