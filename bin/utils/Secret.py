@@ -1,3 +1,6 @@
+from secrets import *
+
+
 class Secret:
     authID = sepphobot_auth_id
     telegramToken = sepphobot_telegram_token
