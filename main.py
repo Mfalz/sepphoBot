@@ -33,22 +33,66 @@ def error(bot, update, err):
 
 
 commands = {
-    '/': "command list",
-    '/help': "the same of /",
-    '/getTemperature': "return temperature from DHT11 sensor",
-    '/getStatus': "return the bot status [only Authorized users]",
-    '/setStatus [auto | manual]': " - The bot automatically manages room temperature in active mode [only authorized users]",
-    '/hurt someone [--disable|--enable]': " - The bot chooses a random hurt sentences inspired to someone",
-    '/dayDeal': "get daily deal from daydeal.ch",
-    '/digitecDeal': "get daily deal from digitec.ch",
-    '/dailyZeit hh:ff jira-number': "set working hours for given jira task",
-    '/dailyZeit get [date]': "get working hours spents for each jira task in the date provided",
-    '/getPhoto date': "return photos",
-    '/wallet show date': "",
-    '/wallet [add | del] product price': "",
-    '/weekDeal': "get weekly deal from daydeal.ch",
-    '/german [ level: A1|A2|B1|B2|C1 ]': "Return a random sentence",
-    '/contrib': " - Contrib github url"
+    '/' : {
+        "info": "command list",
+        "cmd":  "help"
+    },
+    '/getTemperature' : {
+        "info": "return temperature from DHT11 sensor",
+        "cmd":  ""
+    },
+    '/getStatus' : {
+        "info": "return the bot status [only Authorized users]",
+        "cmd":  ""
+    },
+    '/setStatus [auto|manual]' : {
+        "info": "The bot automatically manages room temperature in active mode [only authorized users]",
+        "cmd":  ""
+    },
+    '/hurt someone [--disable|--enable]' : {
+        "info": "The bot chooses a random hurt sentences inspired to someone",
+        "cmd":  ""
+    },
+    '/dayDeal': {
+        "info": "get daily deal from daydeal.ch",
+        "cmd":""
+    },
+    '/digitecDeal': {
+        "info":"get daily deal from digitec.ch",
+        "cmd":""
+    },
+    '/dailyZeit hh:ff jira-number': {
+        "info":"set working hours for given jira task",
+        "cmd":""
+    },
+    '/dailyZeit get [date]': {
+        "info":"get working hours spents for each jira task in the date provided",
+        "cmd":""
+    },
+    '/getPhoto date': {
+        "info":"return photos",
+        "cmd":""
+    },
+    '/wallet show date': {
+        "info":"",
+        "cmd":""
+    },
+    '/wallet [add | del] product price': {
+        "info":"",
+        "cmd":""
+    },
+    '/weekDeal': {
+        "info":"get weekly deal from daydeal.ch",
+        "cmd":""
+    },
+    '/german [ level: A1|A2|B1|B2|C1 ]': {
+        "info":"Return a random sentence",
+        "cmd":""
+    },
+    '/contrib': {
+        "info":"Contrib github url",
+        "cmd":""
+    }
 }
 
 
@@ -65,6 +109,10 @@ def main():
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
+    for command in commands:
+        print command
+
+    return
     sensor = Sensor(secret)
     wallet = Wallet(secret)
     zeit = Zeit(secret)
