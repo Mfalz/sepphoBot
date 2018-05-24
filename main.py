@@ -182,8 +182,7 @@ def main():
     dp.add_handler(start_menu_conv_handler)
 
     for command in commands:
-        global db
-        db.add_handler(CommandHandler(command, command["cmd"]))
+        dp.add_handler(CommandHandler(command, command["cmd"]))
 
     # log all errors
     dp.add_error_handler(error)
