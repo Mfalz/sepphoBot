@@ -39,31 +39,31 @@ commands = {
     },
     '/getTemperature' : {
         "info": "return temperature from DHT11 sensor",
-        "cmd":  ""
+        "cmd":  "sensor.getTemperature"
     },
     '/getStatus' : {
         "info": "return the bot status [only Authorized users]",
-        "cmd":  ""
+        "cmd":  "sensor.getStatus"
     },
     '/setStatus [auto|manual]' : {
         "info": "The bot automatically manages room temperature in active mode [only authorized users]",
-        "cmd":  ""
+        "cmd":  "sensor.setStatus"
     },
     '/hurt someone [--disable|--enable]' : {
         "info": "The bot chooses a random hurt sentences inspired to someone",
-        "cmd":  ""
+        "cmd":  "funny.hurt"
     },
     '/dayDeal': {
         "info": "get daily deal from daydeal.ch",
-        "cmd":""
+        "cmd":"deal.dayDeal"
     },
     '/digitecDeal': {
         "info":"get daily deal from digitec.ch",
-        "cmd":""
+        "cmd":"deal.digitecDeal"
     },
     '/dailyZeit hh:ff jira-number': {
         "info":"set working hours for given jira task",
-        "cmd":""
+        "cmd":"zeit.dailyZeit"
     },
     '/dailyZeit get [date]': {
         "info":"get working hours spents for each jira task in the date provided",
@@ -71,11 +71,11 @@ commands = {
     },
     '/getPhoto date': {
         "info":"return photos",
-        "cmd":""
+        "cmd":"nas.getPhoto"
     },
     '/wallet show date': {
         "info":"",
-        "cmd":""
+        "cmd":"wallet.wallet"
     },
     '/wallet [add | del] product price': {
         "info":"",
@@ -83,15 +83,15 @@ commands = {
     },
     '/weekDeal': {
         "info":"get weekly deal from daydeal.ch",
-        "cmd":""
+        "cmd":"deal.weekDeal"
     },
     '/german [ level: A1|A2|B1|B2|C1 ]': {
         "info":"Return a random sentence",
-        "cmd":""
+        "cmd":"funny.german"
     },
     '/contrib': {
         "info":"Contrib github url",
-        "cmd":""
+        "cmd":"contrib"
     }
 }
 
@@ -109,10 +109,6 @@ def main():
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
-    for command in commands:
-        print command
-
-    return
     sensor = Sensor(secret)
     wallet = Wallet(secret)
     zeit = Zeit(secret)
@@ -185,37 +181,9 @@ def main():
 
     dp.add_handler(start_menu_conv_handler)
 
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("", command_list))
-    dp.add_handler(CommandHandler("help", command_list))
-    dp.add_handler(CommandHandler("contrib", contrib))
-
-    # raspberry PI features
-    dp.add_handler(CommandHandler("getTemperature", sensor.getTemperature))
-    dp.add_handler(CommandHandler("getStatus", sensor.getStatus))
-    dp.add_handler(CommandHandler("setStatus", sensor.setStatus))
-
-    # funny features
-    dp.add_handler(CommandHandler("hurt", funny.hurt))
-    dp.add_handler(CommandHandler("disableHurt", funny.disableHurt))
-    dp.add_handler(CommandHandler("enableHurt", funny.enableHurt))
-    dp.add_handler(CommandHandler("german", funny.german))
-
-    # wallet tracking
-    dp.add_handler(CommandHandler("wallet", wallet.wallet))
-
-    # zeit tracking
-    dp.add_handler(CommandHandler("dailyZeit", zeit.dailyZeit))
-    # nas features
-    dp.add_handler(CommandHandler("getPhoto", nas.getPhoto))
-
-    # AWS features
-
-    # daily deals and product tracking
-    dp.add_handler(CommandHandler("dayDeal", deal.dayDeal))
-    dp.add_handler(CommandHandler("weekDeal", deal.weekDeal))
-    dp.add_handler(CommandHandler("digitecDeal", deal.digitecDeal))
-    # news tracking
+    for command in commands.item():
+        global db
+        db.add_handler(CommandHandler(command, command["cmd"]))
 
     # log all errors
     dp.add_error_handler(error)
