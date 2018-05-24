@@ -71,7 +71,6 @@ def main():
     funny = Funny(secret)
     deal = Deal(secret)
     nas = Nas(secret)
-    funny.disableHurt(secret, updater)
 
     # create available commands list
     # for command in commands.item():

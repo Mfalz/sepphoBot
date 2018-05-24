@@ -15,7 +15,7 @@ class Funny:
     def disableHurt(self, bot, update):
         global stopHurt
         response = ""
-        if not self.Secret.isAuthorized(bot, update):
+        if not self.Secret.isAuthorized(update):
             response = not_enough_permissions
         else:
             stopHurt = 1
