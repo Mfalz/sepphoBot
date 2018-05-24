@@ -1,29 +1,37 @@
 #!/usr/bin/python
 
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, ConversationHandler, \
+    RegexHandler
 import logging
 
-from utils import *
-from Deal import *
-from Funny import *
-# from Sensor import *
-from Zeit import *
-from Wallet import *
-from Nas import *
+from .utils.Constant import *
+from .utils.Message import *
+from .utils.Secret import *
+from .utils.User import *
+from .StartMenu import *
+
+from .Deal import *
+from .Funny import *
+from .Sensor import *
+from .Zeit import *
+from .Wallet import *
+from .Nas import *
+
 
 def start(bot, update):
-    update.message.reply_text('Hi! I\m ChebbyBot!')
+    update.message.reply_text('Hi! I\'m ChebbyBot!')
 
-def getStatus(bot, update):
-    print("Status")
 
 def contrib(bot, update):
-    update.message.reply_text("You can help at https://github.com/mfalz/chabbyBot")
+    update.message.reply_text("You can help at https://github.com/mfalz/sepphoBot")
 
-def error(bot, update, error):
-    logger.warn('Update "%s" caused error "%s"' % (update, error))
+
+def error(bot, update, err):
+    logger.warning('Update "%s" caused error "%s"' % (update, err))
 
 # command dictionary
+
+
 commands = {
     '/': "command list",
     '/help': "the same of /",
@@ -43,40 +51,102 @@ commands = {
     '/contrib': " - Contrib github url"
 }
 
+
 def command_list(bot, update):
     commands_string = ""
     for command, description in commands.items():
         commands_string = commands_string + command + ' - ' + description + '\n'
     update.message.reply_text(commands_string)
 
+
 def main():
-    secret = Secret
+    secret = Secret()
     updater = Updater(secret.getTelegramToken())
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
-    # TODO. Lazy solution, How Does Dependency Injection work in python??
-    # sensor = Sensor(secrets,updater)
-    wallet = Wallet(secret,updater)
-    zeit = Zeit(secret,updater)
-    funny = Funny(secret,updater)
-    deal = Deal(secret,updater)
-    nas = Nas(secret,updater)
-    funny.disableHurt(secret,updater)
+    sensor = Sensor(secret)
+    wallet = Wallet(secret)
+    zeit = Zeit(secret)
+    funny = Funny(secret)
+    deal = Deal(secret)
+    nas = Nas(secret)
+    funny.disableHurt(secret, updater)
 
     # create available commands list
     # for command in commands.item():
     #     dp.add_handler(CommandHandler("" + command, command))
 
-    dp.add_handler(CommandHandler("start", secret.setUser))
+    start_menu_conv_handler = ConversationHandler(
+        entry_points=[CommandHandler('startMenu', startMenu)],
+        states={
+            START_MENU_RESULT: [RegexHandler('^' + temperature_button + '$',
+                                             sensor.get_temperature_menu,
+                                             pass_user_data=True),
+                                RegexHandler('^' + get_status_button + '$',
+                                             sensor.get_status_menu,
+                                             pass_user_data=True),
+                                RegexHandler('^' + set_status_button + '$',
+                                             sensor.set_status_menu,
+                                             pass_user_data=True),
+                                RegexHandler('^' + enable_hurt_button + '$',
+                                             funny.enable_hurt_menu,
+                                             pass_user_data=True),
+                                RegexHandler('^' + disable_hurt_button + '$',
+                                             funny.disable_hurt_menu,
+                                             pass_user_data=True),
+                                RegexHandler('^' + next_button + '$',
+                                             second_page,
+                                             pass_user_data=True),
+                                RegexHandler('^' + back_button + '$',
+                                             startMenu)
+                                ],
+            SECOND_PAGE_RESULT: [RegexHandler('^' + wallet_button + '$',
+                                              wallet.wallet_menu,
+                                              pass_user_data=True),
+                                 RegexHandler('^' + daily_zeit_button + '$',
+                                              zeit.daily_zeit_menu,
+                                              pass_user_data=True),
+                                 RegexHandler('^' + get_photo_button + '$',
+                                              nas.get_photo_menu,
+                                              pass_user_data=True),
+                                 RegexHandler('^' + day_deal_button + '$',
+                                              deal.day_deal_menu,
+                                              pass_user_data=True),
+                                 RegexHandler('^' + next_button + '$',
+                                              third_page,
+                                              pass_user_data=True),
+                                 RegexHandler('^' + back_button + '$',
+                                              startMenu)
+                                 ],
+            THIRD_PAGE_RESULT: [RegexHandler('^' + week_deal_button + '$',
+                                             deal.week_deal_menu,
+                                             pass_user_data=True),
+                                RegexHandler('^' + german_button + '$',
+                                             funny.german_menu,
+                                             pass_user_data=True),
+                                RegexHandler('^' + digitec_deal_button + '$',
+                                             deal.digitec_deal_menu,
+                                             pass_user_data=True),
+                                RegexHandler('^' + back_button + '$',
+                                             second_page,
+                                             pass_user_data=True)
+                                ]
+        },
+        fallbacks=[CommandHandler('exitKeyboard', exitKeyboard)]
+    )
+
+    dp.add_handler(start_menu_conv_handler)
+
+    dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("", command_list))
     dp.add_handler(CommandHandler("help", command_list))
     dp.add_handler(CommandHandler("contrib", contrib))
 
     # raspberry PI features
-    # dp.add_handler(CommandHandler("getTemperature", sensor.getTemperature))
-    # dp.add_handler(CommandHandler("getStatus", sensor.getStatus))
-    # dp.add_handler(CommandHandler("setStatus", sensor.setStatus))
+    dp.add_handler(CommandHandler("getTemperature", sensor.getTemperature))
+    dp.add_handler(CommandHandler("getStatus", sensor.getStatus))
+    dp.add_handler(CommandHandler("setStatus", sensor.setStatus))
 
     # funny features
     dp.add_handler(CommandHandler("hurt", funny.hurt))
@@ -85,7 +155,7 @@ def main():
     dp.add_handler(CommandHandler("german", funny.german))
 
     # wallet tracking
-    dp.add_handler(CommandHandler("wallet", wallet))
+    dp.add_handler(CommandHandler("wallet", wallet.wallet))
 
     # zeit tracking
     dp.add_handler(CommandHandler("dailyZeit", zeit.dailyZeit))
