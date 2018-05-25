@@ -35,17 +35,9 @@ class Funny:
             response = "Restarting Hurt system..."
         update.message.reply_text(response)
 
-    def hurt(bot, update):
-        global stopHurt
-        if stopHurt == 1:
-            update.message.reply_text("Hurt system is stopped")
-            return
-        who = "" + update.message.text
-        who = str(who[5:])
-        if 0 < len(who) < 14:
-            sentences = open("/opt/hurtSentences.txt", "r").read().splitlines()
-            aSentence = random.choice(sentences)
-            update.message.reply_text("Questa la dedico a " + who + "\n" + aSentence)
+    def hurt(self, bot, update):
+        print "testing hurt"
+        update.message.reply_text("porco")
 
     def german_menu(self, bot, update, user_data):
         self.german(bot, update)

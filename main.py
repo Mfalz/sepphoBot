@@ -3,61 +3,34 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, ConversationHandler, \
     RegexHandler
 import logging
-
+from math import *
 from bin.utils.Constant import *
 from bin.utils.Message import *
 from bin.utils.Secret import *
 from bin.utils.User import *
 from bin.StartMenu import *
-
 from bin.Deal import *
 from bin.Funny import *
 from bin.Sensor import *
 from bin.Zeit import *
 from bin.Wallet import *
 from bin.Nas import *
-
+from commands import *
 
 def start(bot, update):
     update.message.reply_text('Hi! I\'m ChebbyBot!')
 
-
 def contrib(bot, update):
     update.message.reply_text("You can help at https://github.com/mfalz/sepphoBot")
-
 
 def error(bot, update, err):
     logger.warning('Update "%s" caused error "%s"' % (update, err))
 
-# command dictionary
-
-
-commands = {
-    '/': "command list",
-    '/help': "the same of /",
-    '/getTemperature': "return temperature from DHT11 sensor",
-    '/getStatus': "return the bot status [only Authorized users]",
-    '/setStatus [auto | manual]': " - The bot automatically manages room temperature in active mode [only authorized users]",
-    '/hurt someone [--disable|--enable]': " - The bot chooses a random hurt sentences inspired to someone",
-    '/dayDeal': "get daily deal from daydeal.ch",
-    '/digitecDeal': "get daily deal from digitec.ch",
-    '/dailyZeit hh:ff jira-number': "set working hours for given jira task",
-    '/dailyZeit get [date]': "get working hours spents for each jira task in the date provided",
-    '/getPhoto date': "return photos",
-    '/wallet show date': "",
-    '/wallet [add | del] product price': "",
-    '/weekDeal': "get weekly deal from daydeal.ch",
-    '/german [ level: A1|A2|B1|B2|C1 ]': "Return a random sentence",
-    '/contrib': " - Contrib github url"
-}
-
-
 def command_list(bot, update):
     commands_string = ""
-    for command, description in commands.items():
-        commands_string = commands_string + command + ' - ' + description + '\n'
+    for command, options in commands.items():
+        commands_string = commands_string + "/" + command + ' - ' + options["info"] + '\n'
     update.message.reply_text(commands_string)
-
 
 def main():
     secret = Secret()
@@ -71,10 +44,6 @@ def main():
     funny = Funny(secret)
     deal = Deal(secret)
     nas = Nas(secret)
-
-    # create available commands list
-    # for command in commands.item():
-    #     dp.add_handler(CommandHandler("" + command, command))
 
     start_menu_conv_handler = ConversationHandler(
         entry_points=[CommandHandler('startMenu', startMenu)],
@@ -137,37 +106,8 @@ def main():
 
     dp.add_handler(start_menu_conv_handler)
 
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("", command_list))
-    dp.add_handler(CommandHandler("help", command_list))
-    dp.add_handler(CommandHandler("contrib", contrib))
-
-    # raspberry PI features
-    dp.add_handler(CommandHandler("getTemperature", sensor.getTemperature))
-    dp.add_handler(CommandHandler("getStatus", sensor.getStatus))
-    dp.add_handler(CommandHandler("setStatus", sensor.setStatus))
-
-    # funny features
-    dp.add_handler(CommandHandler("hurt", funny.hurt))
-    dp.add_handler(CommandHandler("disableHurt", funny.disableHurt))
-    dp.add_handler(CommandHandler("enableHurt", funny.enableHurt))
-    dp.add_handler(CommandHandler("german", funny.german))
-
-    # wallet tracking
-    dp.add_handler(CommandHandler("wallet", wallet.wallet))
-
-    # zeit tracking
-    dp.add_handler(CommandHandler("dailyZeit", zeit.dailyZeit))
-    # nas features
-    dp.add_handler(CommandHandler("getPhoto", nas.getPhoto))
-
-    # AWS features
-
-    # daily deals and product tracking
-    dp.add_handler(CommandHandler("dayDeal", deal.dayDeal))
-    dp.add_handler(CommandHandler("weekDeal", deal.weekDeal))
-    dp.add_handler(CommandHandler("digitecDeal", deal.digitecDeal))
-    # news tracking
+    for command, options in commands.items():
+        dp.add_handler(CommandHandler(command, eval(options["cmd"])))
 
     # log all errors
     dp.add_error_handler(error)
@@ -176,7 +116,6 @@ def main():
     updater.start_polling()
 
     updater.idle()
-
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
